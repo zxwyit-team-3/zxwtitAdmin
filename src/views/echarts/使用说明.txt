@@ -1,0 +1,7 @@
+1.npm install echarts  下载eacharts
+
+2.main.js配置
+import echarts from 'echarts'
+Vue.prototype.$echarts = echarts 
+
+3.开始操作具体看代码。
