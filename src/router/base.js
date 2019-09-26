@@ -2,6 +2,7 @@ import ClassManage from '../views/base/ClassManage.vue';
 import MondifyPassword from '../views/base/MondifyPassword.vue';
 import StudentManage from '../views/base/StudentManage.vue';
 import TeacherManage from '../views/base/TeacherManage.vue';
+import UserRole from '../views/base/UserRole.vue';
 export default  [
     {
         path:'/ClassManage',
@@ -22,5 +23,10 @@ export default  [
         path:'/TeacherManage',
         name:'TeacherManage',
         component:TeacherManage
+      },
+      {
+        path:'/UserRole',
+        name:'UserRole',
+        component:UserRole
       }
 ]

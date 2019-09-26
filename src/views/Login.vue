@@ -1,4 +1,4 @@
-<!--
+﻿<!--
    登录页面
 -->
 <template>
@@ -52,8 +52,9 @@
             userLogin(){
                 var _this = this
                 this.isloading = true
-                this.axios.get("/api/OAuth/authenticate?stuMobile="+_this.user+"&stuPassword="+_this.password)
+                this.axios.get("/api/OAuth/authenticate?userMobile="+_this.user+"&userPassword="+_this.password)
                 .then(function(res){
+                    sessionStorage.Uid = res.data.profile.userUid  //获取当前登录的id
                     if(res.statusText == "OK"){
                         if(_this.checked){ //cookie存储用户信息
                             var Days = 7;  //过期时间
