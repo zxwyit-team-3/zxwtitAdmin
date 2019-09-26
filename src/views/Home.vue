@@ -52,7 +52,7 @@
                 <el-dropdown-item  @click.native="Internationalization('中文')">中文</el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
-            <span  style="display:inline-block;width:30px;padding:0px 10px;margin-top:20px;">{{userName}}</span>
+            <span  style="display:inline-block;width:50px;padding:0px 10px;margin-top:20px;">{{userName}}</span>
             <el-avatar  :src="circleUrl" style="vertical-align: middle;margin-top:10px;"></el-avatar>
             </div>
             </div>

@@ -52,8 +52,9 @@
             userLogin(){
                 var _this = this
                 this.isloading = true
-                this.axios.get("/api/OAuth/authenticate?stuMobile="+_this.user+"&stuPassword="+_this.password)
+                this.axios.get("/api/OAuth/authenticate?userMobile="+_this.user+"&userPassword="+_this.password)
                 .then(function(res){
+                    console.log(res.data)
                     if(res.statusText == "OK"){
                         if(_this.checked){ //cookie存储用户信息
                             var Days = 7;  //过期时间
@@ -77,11 +78,11 @@
                         var tokenType = res.data.token_type //token类型
                         sessionStorage.setItem('token',tokenType+" "+token)  //token类型及token放会话
                         sessionStorage.setItem('userPhone', _this.user)      //登录账号
-                        sessionStorage.setItem('userName',res.data.profile.stuName) //用户姓名
+                        sessionStorage.setItem('userName',res.data.profile.userName) //用户姓名
                         sessionStorage.setItem('userPwd', _this.password)       //用户密码
                         sessionStorage.setItem('userHeader',res.data.profile.userHeader)    //用户头像
-                        _this.$store.stuName = res.data.profile.stuName
-                        _this.$store.stuUid = res.data.profile.stuUid
+                        _this.$store.userName = res.data.profile.userName
+                        _this.$store.userUid = res.data.profile.userUid
                         _this.$store.userHeader = res.data.profile.userHeader
                         _this.$router.push('/') //跳转路由
                         _this.isloading = false //按钮禁用

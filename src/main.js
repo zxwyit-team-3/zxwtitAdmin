@@ -14,8 +14,7 @@ Vue.use(VueAxios,Axios)
 Vue.config.productionTip = false
 
 
-
-Axios.defaults.baseURL = "http://192.168.1.188"  //基路径
+Axios.defaults.baseURL = "http://192.168.1.188:12"  //基路径
 Axios.interceptors.request.use(function(config){
   //携带凭证
   config.headers['Authorization'] = sessionStorage.getItem("token")
