@@ -3,12 +3,19 @@
 -->
 <template>
   <div id="StudentManage">
-    <h2>学生管理</h2>
-
+    <!-- 面包屑导航 -->
+    <div style="height:30px; line-height:30px;">
+    <el-breadcrumb separator-class="el-icon-arrow-right">
+      <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+      <el-breadcrumb-item>基础数据</el-breadcrumb-item>
+      <el-breadcrumb-item>学生管理</el-breadcrumb-item>
+    </el-breadcrumb>
+    </div>
     <!-- 卡片容器 -->
     <el-card class="box-card">
       <div slot="header" class="clearfix">
         <template>
+          <!-- 外层下拉框 -->
           <el-select v-model="outerClassId" filterable placeholder="请选择班级" @change="optionsClass(outerClassId)">
             <el-option
               v-for="item in getAllClass"
@@ -88,7 +95,7 @@
         </template>
       </div>
       <div>
-        <el-table :data="getClassAllInfo" style="width: 100%;">
+        <el-table :data="getClassAllInfo | capitalize " style="width: 100%;">
           <el-table-column label="#" prop="index" type="index"></el-table-column>
           <el-table-column label="班级名称" prop="className"></el-table-column>
           <el-table-column label="学生姓名" prop="stuName"></el-table-column>
@@ -116,9 +123,6 @@
 <script>
 export default {
   name: "studentManage",
-  /**
-   * @property {object} data
-   */
   data() {
     return {
       getAllClass: [],            // 获取所有班级信息编号
@@ -176,20 +180,36 @@ export default {
   */
   created() {
     let _this = this;
-    this.axios.get("/api/Class/GetAllClass").then(response => {
+    _this.axios.get("/api/Class/GetAllClass").then(response => {
       _this.getAllClass = response.data;
-    });
+      _this.outerClassId = _this.getAllClass[0].classId;
+    }) ;
   },
-  /**
-   * @method {object} methods 组件中的所有方法都要写在里面
-   */
+  watch:{
+    outerClassId(classId){
+      this.optionsClass(classId)
+    }
+  },
+  filters:{
+    capitalize:function(value){
+      for (let i = 0; i < value.length; i++) {
+            value[i].stuBirthDay = new Date(
+              value[i].stuBirthDay
+            ).toLocaleDateString();
+          }
+          return value
+    }
+  },
+  
   methods: {
-    /**
-     * @event 
-     */
+  /**
+   * 删除事件 {@link 点击删除当前行数据,并使用数组方法[splice]对数组进行截取删除,同时实现实时刷新}
+   * @param {Number} index -当前行的索引
+   * @param {Object} row -当前行的所有数据
+   */
     handleDelete(index, row) {
       let _this = this;
-      this.$confirm("此操作将永久删除该信息, 是否继续?", "提示", {
+      _this.$confirm("此操作将永久删除该信息, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"
@@ -198,7 +218,7 @@ export default {
           this.axios
             .get("/api/Student/RemoveStudent?Uid=" + row.stuUid)
             .then(res => {
-              console.log(res.data);
+              // console.log(res.data);
               if (res.data.code == 1) {
                 this.$message({
                   type: "success",
@@ -215,35 +235,29 @@ export default {
           });
         });
     },
-    // 下拉菜单
+    
     /**
-     * @event   optionsClass      
-     * @param  {Number} classId                 当前外层的班级索引
-     * @param  {Number} innerClassId            保存当前外层的班级索引，给内层编辑弹框中的下拉框获取，为了同步显示，给内层下拉框设置默认值，避免编辑弹框的出现空下拉框
+     * 外层下拉菜单 {@link 获取外层的下拉框当前的索引，并渲染对应索引的班级数据}     
+     * @param  {Number} classId         - 当前外层的班级索引
+     * @param  {Number} innerClassId    - 保存当前外层的班级索引，给内层编辑弹框中的下拉框获取，为了同步显示，给内层下拉框设置默认值，避免编辑弹框的出现空下拉框
     */
     optionsClass(classId) {
       let _this = this;
       _this.innerClassId = classId;
-      this.axios
+      _this.axios
         .get("/api/Student/GetClassStudent?classId=" + classId)
         .then(response => {
           _this.getClassAllInfo = response.data;
-            /**
-             * 循环班级所有信息，修改所有学生的出生日期的时间格式为 （yyyy/MM/dd）
-            */
-          for (let i = 0; i < _this.getClassAllInfo.length; i++) {
-            _this.getClassAllInfo[i].stuBirthDay = new Date(
-              _this.getClassAllInfo[i].stuBirthDay
-            ).toLocaleDateString();
-          }
         });
     },
-    options(id) { // 弹框下拉框
+    /**
+     * 弹框下拉框
+     * @param {Number} id {@link 模态框下拉菜单当前的索引}
+     */
+    options(id) { 
       let _this = this;
       if(_this.outerClassId==""){
         _this.outerClassId = _this.innerClassId;
-      }else{
-        _this.ruleForm.classId = _this.innerClassId;
       }
     },
     // 编辑
@@ -253,83 +267,85 @@ export default {
      * @param {Number} index {@link 将（index）当前行的下标保存到data,用来做修改数据后的前端同步更新DOM的操作}
      */ 
     handleEdit(index, row) {
-      let _this = this;
+       let _this = this;
       _this.index = index;
       _this.title = false;
       _this.ruleForm = row;
     },
-    // 新增
-    // addStu(){
-      
-    // },
-    // 弹框提交
+
+    /**
+     * 模态框提交 {@link 用来获取新增与编辑的数据}
+     * @param {object} formName {@link 表示表单组件名}
+     */
     submitForm(formName) {
       let _this = this;
-      console.log(_this.outerClassId)
-      console.log(_this.innerClassId)
-      this.$refs[formName].validate(valid => {
+      _this.$refs[formName].validate(valid => {
         if (valid) {
           //验证通过才会进行数据请求，注意参数格式，要转化时间的格式
           _this.centerDialogVisible = false; // 隐藏新增编辑弹框
-          _this.ruleForm.stuBirthDay = new Date(
-            _this.ruleForm.stuBirthDay
-          ).toLocaleDateString();
-          
           /**
            * 利用绑定的title的Boolean值来作为请求接口地址的判断条件
-           * */
-          // let myData = _this.ruleForm
+           * @param {Boolean} title true为新增，false为编辑
+           */
           if (_this.title) {
-            if(_this.outerClassId == _this.innerClassId){
-              this.axios({
+              _this.axios({
               url: "/api/Student/AddStudent",
               method: "post",
               data: {
                 stuName: _this.ruleForm.stuName, //学生姓名
                 stuClassId: _this.innerClassId, //班级编号
-                stuBirthDay: new Date(_this.ruleForm.stuBirthDay), //生日
+                stuBirthDay: _this.ruleForm.stuBirthDay, //生日
                 stuMobile: _this.ruleForm.stuMobile, //手机号
                 stuPassword: _this.ruleForm.stuPassword, //登录密码,
                 stuSex: _this.ruleForm.stuSex
               }
             })
               .then(res => {
-                console.log(_this.ruleForm)
-                _this.ruleForm = res.data.data;
-                _this.ruleForm.stuBirthDay = new Date(
-                  _this.ruleForm.stuBirthDay
-                ).toLocaleDateString();
+                if(res.data.code == 1){
                 /**
-               *  使用数组更新的方法来代替请求后台接口实现实时刷新，因为 Vue 的 data 有监听数据的特性
-               * */ 
-                _this.getClassAllInfo.unshift(_this.ruleForm);
+                  *  使用数组更新的方法来代替请求后台接口实现实时刷新
+                  *  将请求接口后返回的数据添加到数组
+                  */ 
+                  _this.outerClassId = _this.innerClassId;
+                  _this.getClassAllInfo.unshift(res.data.data);
+                  _this.$message({
+                  message: "恭喜你，修改成功",
+                  type: "success"
+                  })
+                }else {
+                  _this.$message({
+                  message: "修改失败",
+                  type: "warning"
+                });
+                }
               })
               .catch(error => console.log(error));
-            }
-            
+              return
           } else {
-            this.axios({
+
+            
+            _this.axios({
               url: "/api/Student/ModifyStudent",
               method: "post",
               data: {
                 stuUid: _this.ruleForm.stuUid, // 学生Id
                 stuName: _this.ruleForm.stuName, //学生姓名
                 stuClassId: _this.innerClassId, //班级编号
-                stuBirthDay: new Date(_this.ruleForm.stuBirthDay), //生日
+                stuBirthDay: _this.ruleForm.stuBirthDay, //生日
                 stuMobile: _this.ruleForm.stuMobile, //手机号
                 stuPassword: _this.ruleForm.stuPassword, //登录密码,
                 stuSex: _this.ruleForm.stuSex //性别
               }
             }).then(res => {
-            console.log(_this.ruleForm)
-              _this.getClassAllInfo.splice(_this.index, 1, _this.ruleForm);
               if (res.data.code == 1) {
-                this.$message({
+                _this.ruleForm.stuAge = res.data.data; //将返回的年龄赋值给表单中的stuAge
+                _this.getClassAllInfo.splice(_this.index, 1, _this.ruleForm);
+                _this.$message({
                   message: "恭喜你，修改成功",
                   type: "success"
                 });
               } else {
-                this.$message({
+                _this.$message({
                   message: "修改失败",
                   type: "warning"
                 });
@@ -341,7 +357,8 @@ export default {
     },
     // 重置按钮
     resetForm(formName) {
-      this.$refs[formName].resetFields();
+      let _this = this;
+      _this.$refs[formName].resetFields();
     }
   }
   
