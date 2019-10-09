@@ -15,32 +15,32 @@ Vue.config.productionTip = false
 
 
 Axios.defaults.baseURL = "http://192.168.1.188:12"  //基路径
-// Axios.interceptors.request.use(function(config){
-//   //携带凭证
-//   config.headers['Authorization'] = sessionStorage.getItem("token")
-//   return config
-// }),function(error){
-//   return Promise.reject(error)
-// }
+Axios.interceptors.request.use(function(config){
+  //携带凭证
+  config.headers['Authorization'] = sessionStorage.getItem("token")
+  return config
+}),function(error){
+  return Promise.reject(error)
+}
 
-// Axios.interceptors.response.use(function(response){
-//   return response
-// },function(error){
-//   var url = error.config.url.toLocaleLowerCase();
-//   if(error.response.status === 401&&!url.endsWith("oauth/authenticate")){
-//     router.replace({name:'login',query:{return:router.fullPath}})
-//   }
-//   return Promise.reject(error)
-// })
+Axios.interceptors.response.use(function(response){
+  return response
+},function(error){
+  var url = error.config.url.toLocaleLowerCase();
+  if(error.response.status === 401&&!url.endsWith("oauth/authenticate")){
+    router.replace({name:'login',query:{return:router.fullPath}})
+  }
+  return Promise.reject(error)
+})
 
 
-// router.beforeEach((to,from,next) => {
-//   if(sessionStorage.getItem('userName') || to.fullPath == "/login"){
-//       next()
-//   }else{
-//     next("/login")
-//   }
-// })
+router.beforeEach((to,from,next) => {
+  if(sessionStorage.getItem('userName') || to.fullPath == "/login"){
+      next()
+  }else{
+    next("/login")
+  }
+})
 
 new Vue({
   router,

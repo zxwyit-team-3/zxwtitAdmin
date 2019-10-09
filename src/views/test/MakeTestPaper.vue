@@ -10,8 +10,8 @@
         </div>
         <!-- 试卷信息 -->
         <PaperInformation @activeNum = "getActive" v-if="active == 0" />
-        <AddTitle v-if="active == 1"/>
-        <ProductionCompleted v-if="active == 2" />
+        <AddTitle v-if="active == 1" @activeNum = "getActive"/>
+        <ProductionCompleted v-if="active == 2" @activeNum = "getActive" />
         </el-card>
         
     </div>
@@ -30,6 +30,11 @@
             }
         },
         components:{
+            /**
+             * @param {PaperInformation} 试卷信息
+             * @param {AddTitle} 添加题目
+             * @param {ProductionCompleted} 完成制作
+             */
             PaperInformation,
             AddTitle,
             ProductionCompleted

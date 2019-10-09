@@ -81,6 +81,7 @@
                         sessionStorage.setItem('userName',res.data.profile.userName) //用户姓名
                         sessionStorage.setItem('userPwd', _this.password)       //用户密码
                         sessionStorage.setItem('userHeader',res.data.profile.userHeader)    //用户头像
+                        sessionStorage.setItem('userId',res.data.profile.userUid)    //用户Id
                         _this.$store.userName = res.data.profile.userName
                         _this.$store.userUid = res.data.profile.userUid
                         _this.$store.userHeader = res.data.profile.userHeader

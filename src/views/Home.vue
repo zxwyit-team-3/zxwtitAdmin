@@ -82,7 +82,8 @@ export default {
           {url:"/ClassManage",name:"班级管理"},
           {url:"/StudentManage",name:"学生管理"},
           {url:"/TeacherManage",name:"老师管理"},
-          {url:"/MondifyPassword",name:"修改密码"}
+          {url:"/MondifyPassword",name:"修改密码"},
+          {url:"/RoleManage",name:"用户管理"}  
         ],
         test:[ //在线测试数组
           {url:"/MakeTestPaper",name:"老师出卷"},
@@ -161,14 +162,14 @@ export default {
     },
 
     beforeCreate(){  //是否登录验证
-      //var token = sessionStorage.getItem("token")
-     // if(!token){
-       // this.$message({
-          //  message: '你还没登录',
-           // type: 'warning'
-        //});
-      // this.$router.replace("/login?returnUrl="+location.pathname+location.search)
-     // }
+      var token = sessionStorage.getItem("token")
+      if(!token){
+        this.$message({
+            message: '你还没登录',
+            type: 'warning'
+        });
+       this.$router.replace("/login?returnUrl="+location.pathname+location.search)
+      }
     },
     mounted(){
       this.circleUrl = sessionStorage.getItem("userHeader")
