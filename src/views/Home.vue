@@ -161,14 +161,14 @@ export default {
     },
 
     beforeCreate(){  //是否登录验证
-      var token = sessionStorage.getItem("token")
-      if(!token){
-        this.$message({
-            message: '你还没登录',
-            type: 'warning'
-        });
-       this.$router.replace("/login?returnUrl="+location.pathname+location.search)
-      }
+      //var token = sessionStorage.getItem("token")
+     // if(!token){
+       // this.$message({
+          //  message: '你还没登录',
+           // type: 'warning'
+        //});
+      // this.$router.replace("/login?returnUrl="+location.pathname+location.search)
+     // }
     },
     mounted(){
       this.circleUrl = sessionStorage.getItem("userHeader")
