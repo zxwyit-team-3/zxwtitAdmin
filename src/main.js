@@ -27,8 +27,11 @@ Axios.interceptors.response.use(function(response){
   return response
 },function(error){
   var url = error.config.url.toLocaleLowerCase();
+  
   if(error.response.status === 401&&!url.endsWith("oauth/authenticate")){
+    console.log(router.fullPath)
     router.replace({name:'login',query:{return:router.fullPath}})
+    
   }
   return Promise.reject(error)
 })

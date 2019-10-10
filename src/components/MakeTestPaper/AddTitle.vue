@@ -79,6 +79,9 @@ export default {
       active:2
     };
   },
+  props:{
+      info:String
+  },
   components: {
     FillInTheBlanks, //填空题
     MultipleChoice, //选择题
@@ -90,6 +93,10 @@ export default {
   created() {
     var _this = this;
     _this.getAllType();
+    this.MultipleChoicesInfo.push(this.info[0])
+    this.FillInTheBlanksInfo.push(this.info[1])
+    this.ShortAnswersInfo.push(this.info[2])
+    console.log(this.info)
   },
   computed: {},
   methods: {

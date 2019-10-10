@@ -19,7 +19,7 @@
         <el-table-column label="操作" >
             <template slot-scope="scope">
                 <el-button size="small" @click="upData(scope.$index)">编辑</el-button>
-                <el-button size="small" @click="Particulars()">详情</el-button>
+                <el-button size="small" @click="Particulars(scope.$index)">详情</el-button>
                 <el-button size="small" type="danger" @click="deleteDate(scope.$index)">删除</el-button>
 	        </template>
           
@@ -205,13 +205,27 @@ export default {
          
           
       },
-      Particulars(){
-        this.$router.push({
-          name: 'TestPaperParticulars',
-          params: {
-            page: '1', code: '8989'
-          }
+      Particulars(i){
+        var _this = this
+        _this.axios.get('/api/TestPaper/GetTestPaper?id='+this.userList[i].tpId)
+        .then((res) => {
+          // console.log(res)
+          // console.log(res.data)
+           this.$router.push({
+            name: 'TestPaperParticulars',
+            params: {
+              TestPaperName: this.userList[i].tpTitle, 
+              TestPaperId: this.userList[i].tpId,
+              courseName:this.userList[i].courseName,
+              allTestInfo:res.data.questions
+            }
+          })
+            
         })
+        .catch((error) => {
+           console.log(error)
+        })
+       
       }
   },
   filters: {

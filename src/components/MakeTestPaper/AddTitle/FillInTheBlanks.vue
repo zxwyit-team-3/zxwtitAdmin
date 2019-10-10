@@ -111,10 +111,14 @@ export default {
             }
         })
         .then((res) => {
+          _this.$message({
+                message: '保存成功',
+                type: 'success'
+              });
           _this.$emit('FillInTheBlanksInfo',res.data.data)
            _this.$store.state.FillInTheBlanksNum+=sunNum
              _this.$store.state.allTestNum+=sunNum
-          console.log(res)
+          _this.dynamicValidateForm.email = ""
         })
         .catch((error) => {
           console.log(error)

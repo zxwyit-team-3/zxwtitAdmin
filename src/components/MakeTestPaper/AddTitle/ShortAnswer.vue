@@ -114,6 +114,12 @@ export default {
         _this.$emit('ShortAnswerInfo',res.data.data)
          _this.$store.state.ShortAnswerNum+=_this.ShortAnswerNum
          _this.$store.state.allTestNum+=_this.ShortAnswerNum
+         _this.$message({
+                message: '保存成功',
+                type: 'success'
+              });
+         _this.ruleForm.pass = ""
+         _this.ruleForm.checkPass = ""
         // console.log(res.data.data)
       })
       .catch((error) => {

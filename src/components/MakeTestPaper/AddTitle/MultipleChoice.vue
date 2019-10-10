@@ -142,6 +142,29 @@ export default {
         _this.$emit('MultipleChoiceInfo',res.data.data)  //添加成功给父组件发送题目信息
         _this.$store.state.MultipleChoiceNum+=_this.MultipleChoiceNum
          _this.$store.state.allTestNum+=_this.MultipleChoiceNum
+          _this.$message({
+                message: '保存成功',
+                type: 'success'
+              });
+         _this.dynamicValidateForm.email = ""
+          _this.dynamicValidateForm.domains = [
+          {
+            cqOption: "",   //参考答案
+            cqIsRight: false //多选是否选中
+          },
+          {
+            cqOption: "",
+            cqIsRight: false
+          },
+          {
+            cqOption: "",
+            cqIsRight: false
+          },
+          {
+            cqOption: "",
+            cqIsRight: false
+          }
+        ]
       })
       .catch((error) => {
         console.log(error)
