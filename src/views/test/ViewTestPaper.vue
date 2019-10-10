@@ -16,14 +16,14 @@
           style="width:100%;"
         >
           <el-option
-            v-for="item in getAllClass"  
+            v-for="item in getAllClass"
             :key="item.classId"
             :label="item.className"
             :value="item.classId"
           ></el-option>
         </el-select>
       </div>
-      <el-table :data="tableData" @row-click="right">
+      <el-table :data="tableData" @row-click="right" style="width:100%;">
         <el-table-column prop="courseName" label="课程" width="140"></el-table-column>
         <el-table-column prop="tpTitle" label="试卷" width="140"></el-table-column>
         <el-table-column prop="date" label="日期" width="140"></el-table-column>
@@ -46,7 +46,7 @@
         <el-table-column prop="userName" label="阅卷"></el-table-column>
       </el-table>
       <!-- 图表 -->
-      <div v-show="!list" id="myChart" :style="{width: '500px', height: '425px'}"></div>
+      <div v-show="!list" id="myChart" style="height:425px;"></div>
     </el-card>
   </div>
 </template>
@@ -56,7 +56,7 @@ export default {
   data() {
     return {
       getAllClass: [], //所有班级数据
-      radio: 1, //单选框
+      radio: 1, //选中的单选框
       tableData: [], //左模态框
       tableDatb: [], //右模态框
       classId: "", //班级编号
@@ -86,18 +86,31 @@ export default {
             stuName.push(_this.tableDatb[index].stuName); //把列表中选中的学生姓名推送到变量
             testScore.push(_this.tableDatb[index].testScore); //把列表中选中的测试成绩推送到变量
           }
-          let myChart = _this.$echarts.init(document.getElementById("myChart"));
+          //获取图表的id
+          var myChart = document.getElementById("myChart");
+          //计算图表的宽度
+          myChart.style.width = myChart.parentNode.offsetWidth + "px";
+          //当视图窗口发生改变时触发该方法
+          window.onresize = function() {
+            myChart.resize({
+              width: myChart._dom.parentNode.offsetWidth + "px"
+            });
+          };
+          var myChart = _this.$echarts.init(myChart);  //初始化图表
           // 指定图表的配置项和数据
           myChart.setOption({
             title: {
               //头部
-              text: list.tpTitle + "(成绩表)", //头部标题
-              left: "center" //头部标题居中
+              text: list.tpTitle + "(成绩表)",  //头部标题
+              left: "center"  //头部标题居中
             },
             tooltip: {}, //悬停柱提示信息
             xAxis: {
               //坐标轴x
-              data: stuName //学生名字
+              data: stuName, //学生名字
+              axisLabel: {
+                interval: 0
+              }
             },
             yAxis: {}, //坐标轴y
             series: [

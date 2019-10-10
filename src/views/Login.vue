@@ -26,6 +26,7 @@
 
 
 <script>
+import CryptoJS from 'crypto-js';
     export default {
         name:"login",
         data(){
@@ -38,6 +39,7 @@
         },
         methods:{ //btoa（加密的东西）加密 atob(解密的东西)解密
             setCookie(name, value, day){  //设置cookie
+            
                    if(day !== 0){     //当设置的时间等于0时，不设置expires属性，cookie在浏览器关闭后删除
                      var expires = day * 24 * 60 * 60 * 1000;
                      var date = new Date(+new Date()+expires);
@@ -85,7 +87,7 @@
                         _this.$store.userName = res.data.profile.userName
                         _this.$store.userUid = res.data.profile.userUid
                         _this.$store.userHeader = res.data.profile.userHeader
-                        _this.$router.push('/') //跳转路由
+                        _this.$router.push('/') //跳转路由 //跳转路由
                         _this.isloading = false //按钮禁用
                     }
                 }).catch(function (error) {
@@ -105,6 +107,8 @@
             }
         },
         created(){
+            // let md5_password = CryptoJS.MD5("123456").toString()
+            // console.log(md5_password)
             if(this.checked){
                 var strcookie = document.cookie;//获取cookie字符串
                 var arrcookie = strcookie.split("; ");//根据分号分割
