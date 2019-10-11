@@ -62,6 +62,17 @@
 
 <script>
 export default {
+  /**
+   * @param {number} currentPage  初始页
+   * @param {number} pagesize 每页的数据
+   * @param {number} AllTotal 数据总量
+   * @param {Array} userList 所有试卷信息数组
+   * @param {Boolean} centerDialogVisible 控制模态框
+   * @param {Object}  form form.name 试卷标题 from.region 课程名称
+   * @param {Array} courseArr 获取课程数组
+   * @param {number} courseId 课程id
+   * @param {number} tpId 试卷id
+   */
   name: "TestPaperManage",
   data() {
     return {
@@ -85,6 +96,18 @@ export default {
     this.getCourse()
   },
   methods: {
+    /**
+     * @param {handleSizeChange}  每页下拉显示数据  size  数据条数
+     * @param {handleCurrentChange} 点击第几页 size  页数
+     * @param {handleUserList} 获取所有数据 pagesize = 每页的数据 currentPage = 页数
+     * @param {indexMethod} 试卷序号 index = 表格行下标
+     * @param {getCourse}  获取课程方法 课程下拉
+     * @param {upData} 修改出现模态框  i = 修改行下标
+     * @param {setUpData} 模态框确定修改
+     * @param {getCourserId} 获取课程id
+     * @param {deleteDate} 删除试卷 i=下标
+     * @param {Particulars} 试卷详情  i= 下标
+     */
     // 初始页currentPage、初始每页数据数pagesize和数据data
     handleSizeChange: function(size) {//每页下拉显示数据
       this.pagesize = size;
