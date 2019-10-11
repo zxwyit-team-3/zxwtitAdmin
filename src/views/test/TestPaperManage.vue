@@ -25,7 +25,8 @@
           
         </el-table-column>
       </el-table>
-      <el-pagination
+      <div style="width:80%;margin:0px auto;">
+        <el-pagination
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page="currentPage"
@@ -34,6 +35,8 @@
         layout="total, sizes, prev, pager, next, jumper"
         :total="AllTotal"
       ></el-pagination>
+      </div>
+      
     </el-card>
     <el-dialog title="修改试卷信息" :visible.sync="centerDialogVisible" width="30%" center>
     <el-form ref="form" :model="form" >
