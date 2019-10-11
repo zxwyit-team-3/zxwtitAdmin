@@ -26,7 +26,6 @@
 
 
 <script>
-import CryptoJS from 'crypto-js';
     export default {
         name:"login",
         data(){
@@ -39,7 +38,6 @@ import CryptoJS from 'crypto-js';
         },
         methods:{ //btoa（加密的东西）加密 atob(解密的东西)解密
             setCookie(name, value, day){  //设置cookie
-            
                    if(day !== 0){     //当设置的时间等于0时，不设置expires属性，cookie在浏览器关闭后删除
                      var expires = day * 24 * 60 * 60 * 1000;
                      var date = new Date(+new Date()+expires);
@@ -56,7 +54,7 @@ import CryptoJS from 'crypto-js';
                 this.isloading = true
                 this.axios.get("/api/OAuth/authenticate?userMobile="+_this.user+"&userPassword="+_this.password)
                 .then(function(res){
-                    console.log(res.data)
+                    // console.log(res.data)
                     if(res.statusText == "OK"){
                         if(_this.checked){ //cookie存储用户信息
                             var Days = 7;  //过期时间
@@ -83,11 +81,11 @@ import CryptoJS from 'crypto-js';
                         sessionStorage.setItem('userName',res.data.profile.userName) //用户姓名
                         sessionStorage.setItem('userPwd', _this.password)       //用户密码
                         sessionStorage.setItem('userHeader',res.data.profile.userHeader)    //用户头像
-                        sessionStorage.setItem('userId',res.data.profile.userUid)    //用户Id
+                        sessionStorage.setItem('userUid',res.data.profile.userUid)      // 用户Id
                         _this.$store.userName = res.data.profile.userName
                         _this.$store.userUid = res.data.profile.userUid
                         _this.$store.userHeader = res.data.profile.userHeader
-                        _this.$router.push('/') //跳转路由 //跳转路由
+                        _this.$router.push('/') //跳转路由
                         _this.isloading = false //按钮禁用
                     }
                 }).catch(function (error) {
@@ -107,8 +105,6 @@ import CryptoJS from 'crypto-js';
             }
         },
         created(){
-            // let md5_password = CryptoJS.MD5("123456").toString()
-            // console.log(md5_password)
             if(this.checked){
                 var strcookie = document.cookie;//获取cookie字符串
                 var arrcookie = strcookie.split("; ");//根据分号分割
