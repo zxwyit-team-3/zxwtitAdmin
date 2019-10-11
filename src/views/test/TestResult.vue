@@ -133,7 +133,7 @@ export default {
     return {
       
       edit:"", // 点击编辑保存当前行的所有数据
-
+      index:'', // 点击编辑保存当前行的索引
       form: {
         TestPaperId: "", // 试卷Id 子组件
         classId: "", // 班级Id 子组件
@@ -224,26 +224,37 @@ export default {
      */
     handleEdit(index, row) {
       let that = this;
-      that.edit = row
+      that.edit = row;
+      that.index = index;
       console.log(row)
     },
     /**
      * @event 确认修改
      */
     amend(){
-      console.log('修改')
       let that = this;
       that.axios.post(`/api/TestPaper/ModifyTestTask`,{
           taskId: that.edit.taskId, //主键编号
           taskTestPaperId:that.edit.taskTestPaperId,//试卷编号
-          taskClassId: that.edit.classId, //班级编号，可修改
-          taskStartTime: that.testTime[0], //测试开始时间，可修改
-          taskEndTime: that.testTime[1]  //测试结束时间，可修改
+          taskClassId: that.form.classId, //班级编号，可修改
+          taskStartTime: new Date(that.form.testTime[0]), //测试开始时间，可修改
+          taskEndTime: new Date(that.form.testTime[1])  //测试结束时间，可修改
       }).then(res => {
-        console.log(res.data)
+        if(res.data.code == 1){
+          that.testTaskList.data[that.index].taskTestPaperId=that.edit.taskTestPaperId;
+          that.testTaskList.data[that.index].taskStartTime=new Date(that.form.testTime[0]);
+          that.testTaskList.data[that.index].taskEndTime=new Date(that.form.testTime[1]);
+          if (that.form.classId == undefined) {
+            that.testTaskList.data[that.index].classId= that.edit.classId;
+          }else {
+            that.testTaskList.data[that.index].classId=that.form.classId;
+          }
+          
+          
+        }
       })
       .catch((error) => {
-        console.log
+        console.log(error)
       })
     },
     /**
@@ -325,9 +336,6 @@ export default {
      */
     submit() {
       let that = this;
-      // console.log(`03213545351432341214`)
-      // console.log(that.form.ClassId)
-        // if (that.form.ClassId != "" && that.form.TestPaperId != "") {
         // 时间格式化
         const d = new Date(that.form.testTime[0]);
         const t = new Date(that.form.testTime[1]);
@@ -358,35 +366,16 @@ export default {
           .post("/api/TestPaper/SetTest?uid=" + userUid, {
             taskTestPaperId: that.form.TestPaperId, //试卷编号
             taskClassId: that.form.classId, //班级编号
-            taskStartTime: taskStartTime, //开始时间
-            taskEndTime: taskEndTime //结束时间
+            taskStartTime, //开始时间
+            taskEndTime //结束时间
           })
           .then(res => {
-            // console.log(`asdfasdfasdfadddddddddddddddd`)
             if (res.data.code == 1) {
               that.testTaskList.data.unshift(res.data.data);
-              that.testName = false;
-              that.className = false;
+              
             }
           });
-      // } else {
-      //   that.$message({
-      //     type: "success ",
-      //     message: "试卷、班级、测试时间不能为空！！！"
-      //   });
-      //   return false;
-      // }
-      
-        // that.axios.post(`/api/TestPaper/ModifyTestTask`,{
-        //               "taskId": 0, //主键编号
-        //               taskTestPaperId:0,//试卷编号
-        //               "taskClassId": 0, //班级编号，可修改
-        //               "taskStartTime": "2019-03-07T03:38:37.635Z", //测试开始时间，可修改
-        //               "taskEndTime": "2019-03-07T03:38:37.635Z", //测试结束时间，可修改
-        //               }).then(res => {
-        //                 console.log(res.data)
-        //               })
-      
+     
     },
     /**
      * @event handleSizeChange {change} 每页显示的内容
@@ -416,8 +405,10 @@ export default {
   filters: {
     // 使用正则表达式过滤格式化时间
     timeFilter(val) {
+      console.log(val)
       let that = this;
-      return val.replace("T", " ");
+      var str = val.replace("T"," ");
+      return str
     }
   }
 };
