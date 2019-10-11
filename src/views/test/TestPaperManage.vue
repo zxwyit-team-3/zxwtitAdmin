@@ -46,7 +46,7 @@
   </el-form-item>
   <el-form-item style="width:100%;">
       <p>专业课程</p>
-    <el-select v-model="form.region" placeholder="请选择活动区域" @change="getCourserId(form.region)">
+    <el-select v-model="form.region" placeholder="请选择课程" @change="getCourserId(form.region)">
       <el-option v-for="item in courseArr" :label="item.courseName" :value="item.courseName" :key="item.courseId"></el-option>
     </el-select>
   </el-form-item>
@@ -67,16 +67,16 @@ export default {
     return {
       currentPage: 1, //初始页
       pagesize: 10, //每页的数据
-      AllTotal: 0,
-      userList: [],
-      centerDialogVisible: false,
+      AllTotal: 0,//数据总量
+      userList: [],//所有试卷信息数组
+      centerDialogVisible: false,  //控制模态框
       form: {
-          name: '',
-          region: '',
+          name: '',//试卷标题
+          region: '', //课程名称
         },
-        courseArr:[],
+        courseArr:[],//获取课程数组
         courseId:"", //课程id
-        tpId:""
+        tpId:"" //试卷id
     };
   },
   mounted() {},
@@ -86,17 +86,17 @@ export default {
   },
   methods: {
     // 初始页currentPage、初始每页数据数pagesize和数据data
-    handleSizeChange: function(size) {
+    handleSizeChange: function(size) {//每页下拉显示数据
       this.pagesize = size;
       this.handleUserList(this.pagesize, this.currentPage);
-      console.log(this.pagesize); //每页下拉显示数据
+      console.log(this.pagesize); 
     },
-    handleCurrentChange: function(currentPage) {
+    handleCurrentChange: function(currentPage) {//点击第几页
       this.currentPage = currentPage;
       this.handleUserList(this.pagesize, this.currentPage);
-      console.log(this.currentPage); //点击第几页
+      console.log(this.currentPage); 
     },
-    handleUserList(pagesize, currentPage) {
+    handleUserList(pagesize, currentPage) {  //获取所有数据
       var _this = this;
       _this.$http
         .get(
@@ -112,6 +112,7 @@ export default {
           _this.AllTotal = res.data.items;
         });
     },
+    //试卷序号
     indexMethod(index) {
       return index + 1;
     },
@@ -124,7 +125,7 @@ export default {
                 console.log(error)
             })
       },
-      upData(i){
+      upData(i){  //修改
           var _this = this
           _this.centerDialogVisible = true
           _this.form.name = _this.userList[i].tpTitle
@@ -132,7 +133,7 @@ export default {
           _this.tpId = _this.userList[i].tpId
           _this.getCourserId(_this.userList[i].courseName)
       },
-      setUpData(){
+      setUpData(){  //确定修改
           var _this = this
           _this.centerDialogVisible = false
           _this.axios.post('/api/TestPaper/ModifyTestPaper',
@@ -147,7 +148,7 @@ export default {
                 type: 'success'
             });
             // console.log(_this.form.name)
-            var index = 0;
+            var index = 0;  //声明变量当做下标
            for (let i = 0; i < _this.userList.length; i++) {
                if(_this.userList[i].tpId == _this.tpId){
                    index = i
@@ -176,7 +177,7 @@ export default {
             this.courseId = 3
         }
       },
-      deleteDate(i){
+      deleteDate(i){  //删除试卷
         this.$confirm('此操作将永久删除该试卷, 是否继续?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
@@ -208,7 +209,7 @@ export default {
          
           
       },
-      Particulars(i){
+      Particulars(i){  //详情
         var _this = this
         _this.axios.get('/api/TestPaper/GetTestPaper?id='+this.userList[i].tpId)
         .then((res) => {
@@ -231,7 +232,7 @@ export default {
        
       }
   },
-  filters: {
+  filters: {  //时间过滤
     dateFormat(val) {
       return val.substring(0, val.indexOf("T"));
     }
