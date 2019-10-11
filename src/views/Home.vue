@@ -120,7 +120,7 @@ export default {
         removeTab(targetName) {  //删除tabs
           let tabs = this.editableTabs;
           let activeName = this.editableTabsValue;
-          console.log(this.editableTabsValue)
+          // console.log(this.editableTabsValue)
           if (activeName === targetName) {
             tabs.forEach((tab, index) => {
               if (tab.name === targetName) {
