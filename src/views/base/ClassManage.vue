@@ -61,7 +61,7 @@
         <span slot="footer" class="dialog-footer" align="center">
           <el-button @click="closePop">取 消</el-button>
           <el-button type="primary" @click="addClass" 
-          v-if="addEnsure==true">添 加</el-button>
+          v-if="addEnsure">添 加</el-button>
           <el-button type="primary" @click="updataClass" 
           v-if="addEnsure==!true">确 定</el-button>
         </span>
@@ -87,7 +87,7 @@
             <el-button
               size="mini"
               type="danger"
-              :disabled="scope.row.classStudents > 0 ? true : false"
+              :disabled="scope.row.classStudents>0"
               @click="handleDelete(scope.$index, scope.row)">删除</el-button>
           </template>
         </el-table-column>
@@ -99,7 +99,7 @@
 <script>
   export default {
     data() {
-      return {
+      return {            
         tableData: [],//接收班级信息
         tableDatb: [],//接收老师的信息
         tableDatc:[],//接收课程的信息
