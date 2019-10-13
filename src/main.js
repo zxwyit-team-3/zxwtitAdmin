@@ -8,13 +8,17 @@ import Axios from "axios"
 import VueAxios from "vue-axios"
 import echarts from 'echarts'
 import i18n from './i18n/i18n';
+
+// import btnPermissions from "@direction/btnPermissions.js";
 Vue.prototype.$echarts = echarts 
 Vue.use(ElementUi)
 Vue.use(VueAxios,Axios)
 Vue.config.productionTip = false
+// Vue.use(btnPermissions)
 
 
-Axios.defaults.baseURL = "http://192.168.1.188:12"  //基路径
+
+// Axios.defaults.baseURL = "http://192.168.1.188:12"  //基路径
 Axios.interceptors.request.use(function(config){
   //携带凭证
   config.headers['Authorization'] = sessionStorage.getItem("token")

@@ -5,12 +5,12 @@
       <!-- 试卷名 -->
       <el-form :model="form" ref="form" label-width="80px" class="demo-ruleForm">
         <el-form-item label="试卷名称" prop="TestPaperId">
-          <TestPaperId @childTestPaperId="getTestPaperId" :TestPaperId="`null`"/>
+          <TestPaperId @childTestPaperId="getTestPaperId" :TestPaperId="0"/>
         </el-form-item>
 
         <!-- 班级名 -->
         <el-form-item label="班级名称" prop="ClassId">
-          <ClassId @childClassId="getClassId" :classId="`null`"  />
+          <ClassId @childClassId="getClassId" :classId="0"  />
         </el-form-item>
 
         <!-- 考试时间 -->
@@ -88,7 +88,7 @@
 
             <!-- 班级名 -->
             <el-form-item label="班级名称" prop="ClassId">
-              <ClassId @childClassId="getClassId" :className="edit.classId" v-if="centerDialogVisible" />
+              <ClassId @childClassId="getClassId" :classId="edit.classId" v-if="centerDialogVisible" />
             </el-form-item>
 
             <!-- 考试时间 -->
@@ -241,14 +241,14 @@ export default {
           taskEndTime: new Date(that.form.testTime[1])  //测试结束时间，可修改
       }).then(res => {
         if(res.data.code == 1){
-          that.testTaskList.data[that.index].taskTestPaperId=that.edit.taskTestPaperId;
-          that.testTaskList.data[that.index].taskStartTime=new Date(that.form.testTime[0]);
-          that.testTaskList.data[that.index].taskEndTime=new Date(that.form.testTime[1]);
-          if (that.form.classId == undefined) {
-            that.testTaskList.data[that.index].classId= that.edit.classId;
-          }else {
-            that.testTaskList.data[that.index].classId=that.form.classId;
-          }
+          that.testTaskList.data[that.index].tpTitle=that.TestPaperIdz;
+          // that.testTaskList.data[that.index].taskStartTime=new Date(that.form.testTime[0]);
+          // that.testTaskList.data[that.index].taskEndTime=new Date(that.form.testTime[1]);
+          // if (that.form.classId == undefined) {
+          //   that.testTaskList.data[that.index].classId= that.edit.classId;
+          // }else {
+          //   that.testTaskList.data[that.index].classId=that.form.classId;
+          // }
           
           
         }
@@ -377,24 +377,24 @@ export default {
           });
      
     },
-    /**
-     * @event handleSizeChange {change} 每页显示的内容
-     * @param sizeVal {number} 每页多少条
-     */
-    handleSizeChange(sizeVal) {
-      let that = this;
-      that.pageSizes = sizeVal;
-      that.getTestTaskList(); // 改变分页显示数据数量后重新请求接口
-    },
-    /**
-     * @event handleCurrentChange {change} 分页跳转
-     * @param currentVal {number} 当前页
-     */
-    handleCurrentChange(currentVal) {
-      let that = this;
-      that.currentPage = currentVal;
-      that.getTestTaskList(); // 分页跳转后重新请求接口
-    }
+  //   /**
+  //    * @event handleSizeChange {change} 每页显示的内容
+  //    * @param sizeVal {number} 每页多少条
+  //    */
+  //   handleSizeChange(sizeVal) {
+  //     let that = this;
+  //     that.pageSizes = sizeVal;
+  //     that.getTestTaskList(); // 改变分页显示数据数量后重新请求接口
+  //   },
+  //   /**
+  //    * @event handleCurrentChange {change} 分页跳转
+  //    * @param currentVal {number} 当前页
+  //    */
+  //   handleCurrentChange(currentVal) {
+  //     let that = this;
+  //     that.currentPage = currentVal;
+  //     that.getTestTaskList(); // 分页跳转后重新请求接口
+  //   }
   },
 
   created() {
@@ -405,7 +405,6 @@ export default {
   filters: {
     // 使用正则表达式过滤格式化时间
     timeFilter(val) {
-      console.log(val)
       let that = this;
       var str = val.replace("T"," ");
       return str
