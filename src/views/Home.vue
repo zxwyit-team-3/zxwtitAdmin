@@ -8,23 +8,23 @@
       background-color="#545C64"
       router 
       text-color="#fff">
-      <p id="title"><img src="../assets/head.jpg" />智学无忧教育</p>
+      <p id="title"><img src="../assets/head.jpg" />{{$t("message.Title")}}</p>
     <el-submenu index="1">
       <template slot="title">
         <i class="el-icon-document"></i>
-        <span slot="title">在线测试</span>
+        <span slot="title">{{$t("message.TestTitle")}}</span>
       </template>
       <el-menu-item-group>
-        <el-menu-item v-for="(item,index) in test" :key="index"  :route="item.url" :name="item.name" :index="item.url" @click="addTab(index,item.name,item.url)">{{item.name}}<i></i></el-menu-item>
+        <el-menu-item v-for="(item,index) in test" :key="index"  :route="item.url" :name="item.name" :index="item.url" @click="addTab(index,item.name,item.url)">{{$t("message.test["+index+"].name")}}<i></i></el-menu-item>
       </el-menu-item-group>
     </el-submenu>
     <el-submenu index="2">
       <template slot="title">
         <i class="el-icon-menu"></i>
-        <span slot="title">基本数据</span>
+        <span slot="title">{{$t("message.BaseTitle")}}</span>
       </template>
       <el-menu-item-group>
-         <el-menu-item v-for="(item,index) in base" :key="index" :route="item.url" :name="item.name" :index="item.url"  @click="addTab(index,item.name,item.url)">{{item.name}}<i></i></el-menu-item>
+         <el-menu-item v-for="(item,index) in base" :key="index" :route="item.url" :name="item.name" :index="item.url"  @click="addTab(index,item.name,item.url)">{{$t("message.base["+index+"].name")}}<i></i></el-menu-item>
       </el-menu-item-group>
     </el-submenu>
     </el-menu>
@@ -174,11 +174,22 @@ export default {
     mounted(){
       this.circleUrl = sessionStorage.getItem("userHeader")
       this.userName = sessionStorage.getItem("userName")
+
+      //在页面刷新时将vuex里的信息保存到sessionStorage
+      window.addEventListener("beforeunload",(e) => {
+        sessionStorage.setItem("store",JSON.stringify(this.$store.state))
+      })
     },
     created(){
       let that = this;
       console.log(localStorage.lang)
       that.selectValue = localStorage.lang == undefined?'cn':localStorage.lang
+
+      //在页面加载时读取sessionStorage里的状态信息   
+      if(sessionStorage.getItem("store")){
+        that.$store.replaceState(Object.assign({},that.$store.state,JSON.parse(sessionStorage.getItem("store"))))
+        sessionStorage.removeItem("store")
+      }
     }
 }
 </script>

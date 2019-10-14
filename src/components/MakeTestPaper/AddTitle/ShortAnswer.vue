@@ -12,7 +12,8 @@
         <el-input type="textarea" rows="1" v-model="ruleForm.pass" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item label="参考答案" prop="checkPass">
-        <el-input type="textarea" rows="1" v-model="ruleForm.checkPass" autocomplete="off"></el-input>
+        <div id="editor" class="editor"></div>
+        <!-- <el-input type="textarea" rows="1" v-model="ruleForm.checkPass" autocomplete="off"></el-input> -->
       </el-form-item>
       <el-form-item label="分值">
         <el-input-number size="small" v-model="ShortAnswerNum"></el-input-number>
@@ -32,6 +33,7 @@
 
 
 <script>
+import E from 'wangeditor'
 export default {
   name: "ShortAnswer",
   data() {
@@ -100,7 +102,7 @@ export default {
     saveShortAnswer() {
       var _this = this;
       _this.axios.post("/api/TestPaper/AddQuestionToTestPaper", {
-        tpqPaperId: _this.$store.testPaperId, //试卷主键编号
+        tpqPaperId:_this.$store.state.testPaperId, //试卷主键编号
         tpqScore: _this.ShortAnswerNum, //分值
         tpqQuestion: {
           questionTitle: _this.ruleForm.pass, //题目的标题
@@ -125,7 +127,24 @@ export default {
       .catch((error) => {
         console.log(error)
       })
+    },
+    
+  },
+  mounted () {
+    var editor = new E('#editor')
+    editor.customConfig.uploadImgShowBase64 = true
+    editor.customConfig.onchange = (html) => {
+       this.ruleForm.checkPass = html  //获取文本编译框内的html赋值
     }
+     
+      editor.create()
+    //想，可以添加事件获取
+    // document.getElementById("editor").addEventListener("keyup", function() {
+    //   var json = editor.txt.getJSON(); // 获取 JSON 格式的内容
+    //   var jsonStr = JSON.stringify(json);
+    //   // console.log(json);
+    //   console.log(jsonStr);
+    // });
   }
 };
 </script>

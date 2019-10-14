@@ -46,9 +46,7 @@
   </el-form-item>
   <el-form-item style="width:100%;">
       <p>专业课程</p>
-    <el-select v-model="form.region" placeholder="请选择课程" @change="getCourserId(form.region)">
-      <el-option v-for="item in courseArr" :label="item.courseName" :value="item.courseName" :key="item.courseId"></el-option>
-    </el-select>
+    <courseSelect />
   </el-form-item>
     </el-form>
       <span slot="footer" class="dialog-footer">
@@ -61,7 +59,9 @@
 
 
 <script>
+import courseSelect from '../../components/CourseSelect'
 export default {
+  
   /**
    * @param {number} currentPage  初始页
    * @param {number} pagesize 每页的数据
@@ -74,6 +74,9 @@ export default {
    * @param {number} tpId 试卷id
    */
   name: "TestPaperManage",
+  components:{
+    courseSelect
+  },
   data() {
     return {
       currentPage: 1, //初始页
