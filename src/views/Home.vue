@@ -82,7 +82,8 @@ export default {
           {url:"/ClassManage",name:"班级管理"},
           {url:"/StudentManage",name:"学生管理"},
           {url:"/TeacherManage",name:"老师管理"},
-          {url:"/MondifyPassword",name:"修改密码"}
+          {url:"/MondifyPassword",name:"修改密码"},
+          {url:"/RoleManage",name:"用户管理"}  
         ],
         test:[ //在线测试数组
           {url:"/MakeTestPaper",name:"老师出卷"},
