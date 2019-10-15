@@ -4,21 +4,29 @@ const en = {
         'Title': 'ZxwyEducation',
         "TestTitle":"On Line Testing",
         "BaseTitle":"Base Data",
-        "test":[
-            {"name":"TeacherMakePaper"},
-            {"name":"TestPaperMange"},
-            {"name":"ArrangeTest"},
-            {"name":"CheckPaper"},
-            {"name":"TestGarde"}
-        ],
-        "base":[
-            {"name":"ClassManage"},
-            {"name":"StudentManage"},
-            {"name":"TeacherManage"},
-            {"name":"MondifyPassword"},
-            {"name":"RoleManage"}
-        ],
-        
+        "test":{
+            "name1":"TeacherMakePaper",
+            "name2":"TestPaperMange",
+            "name3":"ArrangeTest",
+            "name4":"CheckPaper",
+            "name5":"TestGarde"
+        },
+        "base":{
+            "name1":"ClassManage",
+            "name2":"StudentManage",
+            "name3":"TeacherManage",
+            "name4":"MondifyPassword",
+            "name5":"RoleManage"
+            },
+        "upData":"upData",
+        "delete":"delete",
+        "details":"details",
+        "index":"index",
+        "testInfo":"testInfo",
+        "addTitle":"addTitle",
+        "completion":"completionTest",
+        "testName":"testName",
+        "courseName":"courseName"
     },
     ...enLocale
 }

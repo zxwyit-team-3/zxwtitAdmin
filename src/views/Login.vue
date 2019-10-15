@@ -89,6 +89,9 @@
                         _this.$store.state.userUid = res.data.profile.userUid
                         _this.$store.state.userHeader = res.data.profile.userHeader
                         _this.$store.state.userUserTypeId = res.data.profile.userUserTypeId
+                        sessionStorage.setItem('userUserTypeId',res.data.profile.userUserTypeId)
+                        // console.log(_this.$store.state.userUserTypeId)
+                        // console.log(res.data.profile.userUserTypeId)
                         _this.$router.push('/') //跳转路由
                         _this.isloading = false //按钮禁用
                     }

@@ -134,6 +134,7 @@ export default {
     var editor = new E('#editor')
     editor.customConfig.uploadImgShowBase64 = true
     editor.customConfig.onchange = (html) => {
+      console.log(html)
        this.ruleForm.checkPass = html  //获取文本编译框内的html赋值
     }
      

@@ -18,9 +18,9 @@
         </el-table-column>
         <el-table-column label="操作" >
             <template slot-scope="scope">
-                <el-button size="small" @click="upData(scope.$index)">编辑</el-button>
-                <el-button size="small" @click="Particulars(scope.$index)">详情</el-button>
-                <el-button size="small" type="danger" @click="deleteDate(scope.$index)">删除</el-button>
+                <el-button size="small" @click="upData(scope.$index)">{{$t("message.upData")}}</el-button>
+                <el-button size="small" @click="Particulars(scope.$index)">{{$t("message.details")}}</el-button>
+                <el-button size="small" type="danger" @click="deleteDate(scope.$index)">{{$t("message.delete")}}</el-button>
 	        </template>
           
         </el-table-column>

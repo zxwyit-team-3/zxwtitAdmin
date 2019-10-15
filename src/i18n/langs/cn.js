@@ -4,22 +4,30 @@ const cn = {
         'Title': "智学无忧IT教育",
         "TestTitle":"在线测试",
         "BaseTitle":"基本数据",
-        "test":[
+        "test":{
            
-            {"name":"老师出卷"},
-            {"name":"试卷管理"},
-            {"name":"安排测试"},
-            {"name":"批阅试卷"},
-            {"name":"测试成绩"}
-        ],
-        "base":[
-            {"name":"班级管理"},
-            {"name":"学生管理"},
-            {"name":"老师管理"},
-            {"name":"修改密码"},
-            {"name":"用户管理"}
-        ],
-        
+            "name1":"老师出卷",
+            "name2":"试卷管理",
+            "name3":"安排测试",
+            "name4":"批阅试卷",
+            "name5":"测试成绩"
+        },
+        "base":{
+            "name1":"班级管理",
+            "name2":"学生管理",
+            "name3":"老师管理",
+            "name4":"修改密码",
+            "name5":"用户管理"
+        },
+        "upData":"修改",
+        "delete":"删除",
+        "details":"详情",
+        "index":"首页",
+        "testInfo":"试卷信息",
+        "addTitle":"添加题目",
+        "completion":"完成制作",
+        "testName":"试卷名称",
+        "courseName":"课程名称"
     },
     ...zhLocale
 }

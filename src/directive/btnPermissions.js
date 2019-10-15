@@ -1,13 +1,14 @@
 import Vue from 'vue'
-import store from '../store'
+import store from '../store/index'
 const has = Vue.directive('has',{
     inserted:function(el,binging,vnode){
         //获取按钮权限
         let btnPermissions = vnode.context.$route.meta.btnPermissions;
         
         //获取状态管理用户
-        var user = vnode.context.$root;
-        var userUserTypeId = user.$store.state.userUserTypeId
+        // var user = vnode.context.$root.userInfo;
+        // console.log()
+        var userUserTypeId = store.state.userUserTypeId
         // console.log()
         // var userUserTypeId = null
         // setTimeout(() => {
