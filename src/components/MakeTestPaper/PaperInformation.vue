@@ -64,18 +64,19 @@ export default {
         _this.$refs[formName].validate((valid) => {
           if (valid) {
               //制作试卷
-              _this.axios.post('/api/TestPaper/MakeTestPaper?uid='+sessionStorage.getItem("userId"),
+              _this.axios.post('/api/TestPaper/MakeTestPaper?uid='+sessionStorage.getItem("userUid"),
               {
                 "tpTitle":_this.ruleForm.testName,
                 "tpCourseId":_this.courseId
               })
               .then((res) => {
-                console.log(res)
+                console.log(res.data.data.testPaperId)
                  _this.$store.state.ShortAnswerNum = 0
                  _this.$store.state.MultipleChoiceNum = 0
                  _this.$store.state.FillInTheBlanksNum = 0
                 _this.$store.state.allTestNum = 0
-                _this.$store.testPaperId = res.data.data.testPaperId //试卷id存储到状态管理
+                sessionStorage.setItem("testPaperId",res.data.data.testPaperId)
+                _this.$store.state.testPaperId = res.data.data.testPaperId //试卷id存储到状态管理
                 _this.$store.state.testPaperName = _this.ruleForm.testName
                 _this.$store.state.courseId = _this.courseId
                 console.log(_this.$store.state.testPaperName )

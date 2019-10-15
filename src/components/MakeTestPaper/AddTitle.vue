@@ -119,6 +119,7 @@ export default {
     },
     getShortAnswerInfo(info){
       this.ShortAnswersInfo.push(info)
+      console.log( this.ShortAnswersInfo)
     },
     getFillInTheBlanksInfo(info){
         this.FillInTheBlanksInfo.push(info)

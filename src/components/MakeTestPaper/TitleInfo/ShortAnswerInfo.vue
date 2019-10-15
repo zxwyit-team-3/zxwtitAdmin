@@ -10,9 +10,24 @@
       <el-form-item  :label="index+1+'、'">
         <el-input type="textarea" rows="1" v-model="item.tpqQuestion.questionTitle" :disabled = "isDisabled!=index" autocomplete="off"></el-input>
       </el-form-item>
+
       <el-form-item>
         <el-button type="info" size="small">参考答案</el-button>
-        <el-input type="textarea" rows="1" v-model="item.tpqQuestion.answerQuestion.aqAnswer" :disabled = "isDisabled!=index" autocomplete="off"></el-input>
+        <div v-if="isDisabled!=index" v-html="item.tpqQuestion.answerQuestion.aqAnswer"></div>
+        <!-- <template> -->
+            <div class="edit_container">
+                <quill-editor 
+                  v-if="isDisabled==index"
+                    v-model="item.tpqQuestion.answerQuestion.aqAnswer" 
+                    :disabled = "isDisabled!=index" autocomplete="off"
+                    ref="myQuillEditor" 
+                    :options="editorOption" 
+                    @blur="onEditorBlur($event)" @focus="onEditorFocus($event)"
+                    @change="onEditorChange($event)">
+                </quill-editor>
+            </div>
+
+        <!-- </template> -->
       </el-form-item>
       <el-form-item label="分值">
         <el-input-number size="small" v-model="item.tpqScore" :disabled = "isDisabled!=index"></el-input-number>
@@ -28,17 +43,40 @@
 </template>
 
 <script>
+
+
+import { quillEditor } from "vue-quill-editor"; //调用编辑器
+import 'quill/dist/quill.core.css';
+import 'quill/dist/quill.snow.css';
+import 'quill/dist/quill.bubble.css';
+
 export default {
     name:"ShortAnswerInfo",
+    components: {
+        quillEditor
+    },
     data(){
         return {
-            isDisabled:9999
+            isDisabled:9999,
+            // 富文本
+            // content: `<p></p><p><br></p><ol><li><strong><em>Or drag/paste an image here.</em></strong></li><li><strong><em>rerew</em></strong></li><li><strong><em>rtrete</em></strong></li><li><strong><em>tytrytr</em></strong></li><li><strong><em>uytu</em></strong></li></ol>`,
+            editorOption: {}
+            
         }
     },
     props:{
         msg:String
     },
     methods:{
+       onEditorReady(editor) { // 准备编辑器
+ 
+        },
+        onEditorBlur(){}, // 失去焦点事件
+        onEditorFocus(){}, // 获得焦点事件
+        onEditorChange(){
+          // console.log(this.content)
+        }, // 内容改变事件
+
       setShortAnswerInfo(i){
           this.isDisabled = i
       },
@@ -48,7 +86,7 @@ export default {
       saveShortAnswerInfo(i){
         console.log(this.msg[i])
           var _this = this
-          _this.axios.post('/api/TestPaper/ModifyQuestion?paperQuestionId='+_this.$store.testPaperId,{
+          _this.axios.post('/api/TestPaper/ModifyQuestion?paperQuestionId'+this.msg[i].tpqPaperId,{
               "questionId":_this.msg[i].tpqQuestion.questionId,
               "questionTitle": _this.msg[i].tpqQuestion.questionTitle,
               "questionTypeId": 3,
@@ -57,9 +95,15 @@ export default {
               } 
           })
           .then((res) => {
+            console.log(res)
              if(res.data.code == 1){
                 _this.$message({
                 message: '修改成功',
+                type: 'success'
+              });
+             }else if(res.data.code == 1){
+                _this.$message({
+                message: '数据没有变化',
                 type: 'success'
               });
              }
@@ -92,7 +136,13 @@ export default {
             _this.$message.error('删除失败')
              console.log(error)
           })
-      }
+      },
+      computed: {
+        editor() {
+            return this.$refs.myQuillEditor.quill;
+        },
+    }
+
     }
 }
 </script>

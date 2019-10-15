@@ -1,4 +1,5 @@
 <template>
+<!-- 简答题子组件 -->
   <div>
     <el-form
       :model="ruleForm"
@@ -11,8 +12,23 @@
       <el-form-item label="题干" prop="pass">
         <el-input type="textarea" rows="1" v-model="ruleForm.pass" autocomplete="off"></el-input>
       </el-form-item>
+
+
       <el-form-item label="参考答案" prop="checkPass">
-        <el-input type="textarea" rows="1" v-model="ruleForm.checkPass" autocomplete="off"></el-input>
+        <!-- <el-input type="textarea" rows="1" v-model="ruleForm.checkPass" autocomplete="off"> -->
+          <!-- <template> -->
+    <div class="edit_container">
+        <quill-editor 
+            v-model="ruleForm.checkPass" 
+            autocomplete="off"
+            ref="myQuillEditor" 
+            :options="editorOption" 
+            @blur="onEditorBlur($event)" @focus="onEditorFocus($event)"
+            @change="onEditorChange($event)">
+        </quill-editor>
+    </div>
+<!-- </template> -->
+        <!-- </el-input> -->
       </el-form-item>
       <el-form-item label="分值">
         <el-input-number size="small" v-model="ShortAnswerNum"></el-input-number>
@@ -32,8 +48,16 @@
 
 
 <script>
+import { quillEditor } from "vue-quill-editor"; //调用编辑器
+import 'quill/dist/quill.core.css';
+import 'quill/dist/quill.snow.css';
+import 'quill/dist/quill.bubble.css';
+
 export default {
   name: "ShortAnswer",
+  components: {
+        quillEditor //注册富文本插件
+    },
   data() {
     /**
      * @param {validatePass} 验证题目方法
@@ -74,10 +98,25 @@ export default {
         pass: [{ validator: validatePass, trigger: "blur" }], //题目验证规则
         checkPass: [{ validator: validatePass2, trigger: "blur" }] //参考答案验证规则
       },
-      ShortAnswerNum: 5 //简答题分值
+      ShortAnswerNum: 5, //简答题分值
+      // 富文本
+      // content: `<p><input placeholder='请输入内容' /></p>`,
+      editorOption: {} //富文本编辑选项
     };
   },
   methods: {
+    /**
+     * 富文本
+     */
+    onEditorReady(editor) { // 准备编辑器
+ 
+    },
+    onEditorBlur(){}, // 失去焦点事件
+    onEditorFocus(){}, // 获得焦点事件
+    onEditorChange(){
+      console.log(this.ruleForm.checkPass)
+    }, // 内容改变事件
+
     /**
      * @param {submitForm} 保存题目
      * @param {resetForm} 重置题目
@@ -100,7 +139,7 @@ export default {
     saveShortAnswer() {
       var _this = this;
       _this.axios.post("/api/TestPaper/AddQuestionToTestPaper", {
-        tpqPaperId: _this.$store.testPaperId, //试卷主键编号
+        tpqPaperId:sessionStorage.getItem("testPaperId"), //试卷主键编号
         tpqScore: _this.ShortAnswerNum, //分值
         tpqQuestion: {
           questionTitle: _this.ruleForm.pass, //题目的标题
@@ -126,7 +165,12 @@ export default {
         console.log(error)
       })
     }
-  }
+  },
+  computed: {
+        editor() {
+            return this.$refs.myQuillEditor.quill;
+        },
+    }
 };
 </script>
 
