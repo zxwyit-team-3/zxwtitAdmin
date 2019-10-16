@@ -1,4 +1,5 @@
 <template>
+<!-- 简答题子组件 -->
   <div>
     <el-form
       :model="ruleForm"
@@ -11,9 +12,23 @@
       <el-form-item label="题干" prop="pass">
         <el-input type="textarea" rows="1" v-model="ruleForm.pass" autocomplete="off"></el-input>
       </el-form-item>
+
+
       <el-form-item label="参考答案" prop="checkPass">
-        <div id="editor" class="editor"></div>
-        <!-- <el-input type="textarea" rows="1" v-model="ruleForm.checkPass" autocomplete="off"></el-input> -->
+        <!-- <el-input type="textarea" rows="1" v-model="ruleForm.checkPass" autocomplete="off"> -->
+          <!-- <template> -->
+    <div class="edit_container">
+        <quill-editor 
+            v-model="ruleForm.checkPass" 
+            autocomplete="off"
+            ref="myQuillEditor" 
+            :options="editorOption" 
+            @blur="onEditorBlur($event)" @focus="onEditorFocus($event)"
+            @change="onEditorChange($event)">
+        </quill-editor>
+    </div>
+<!-- </template> -->
+        <!-- </el-input> -->
       </el-form-item>
       <el-form-item label="分值">
         <el-input-number size="small" v-model="ShortAnswerNum"></el-input-number>
@@ -33,9 +48,16 @@
 
 
 <script>
-import E from 'wangeditor'
+import { quillEditor } from "vue-quill-editor"; //调用编辑器
+import 'quill/dist/quill.core.css';
+import 'quill/dist/quill.snow.css';
+import 'quill/dist/quill.bubble.css';
+
 export default {
   name: "ShortAnswer",
+  components: {
+        quillEditor //注册富文本插件
+    },
   data() {
     /**
      * @param {validatePass} 验证题目方法
@@ -76,10 +98,25 @@ export default {
         pass: [{ validator: validatePass, trigger: "blur" }], //题目验证规则
         checkPass: [{ validator: validatePass2, trigger: "blur" }] //参考答案验证规则
       },
-      ShortAnswerNum: 5 //简答题分值
+      ShortAnswerNum: 5, //简答题分值
+      // 富文本
+      // content: `<p><input placeholder='请输入内容' /></p>`,
+      editorOption: {} //富文本编辑选项
     };
   },
   methods: {
+    /**
+     * 富文本
+     */
+    onEditorReady(editor) { // 准备编辑器
+ 
+    },
+    onEditorBlur(){}, // 失去焦点事件
+    onEditorFocus(){}, // 获得焦点事件
+    onEditorChange(){
+      // console.log(this.ruleForm.checkPass)
+    }, // 内容改变事件
+
     /**
      * @param {submitForm} 保存题目
      * @param {resetForm} 重置题目
@@ -101,7 +138,9 @@ export default {
     },
     saveShortAnswer() {
       var _this = this;
+      console.log(`aaaaaaaaaaaaaa`)
       _this.axios.post("/api/TestPaper/AddQuestionToTestPaper", {
+        // tpqPaperId:sessionStorage.getItem("testPaperId"), //试卷主键编号
         tpqPaperId:_this.$store.state.testPaperId, //试卷主键编号
         tpqScore: _this.ShortAnswerNum, //分值
         tpqQuestion: {
@@ -113,6 +152,7 @@ export default {
         }
       })
       .then((res) => {
+        console.log(`ddddddddddddddddddddddd`)
         _this.$emit('ShortAnswerInfo',res.data.data)
          _this.$store.state.ShortAnswerNum+=_this.ShortAnswerNum
          _this.$store.state.allTestNum+=_this.ShortAnswerNum
@@ -125,6 +165,7 @@ export default {
         // console.log(res.data.data)
       })
       .catch((error) => {
+        console.log(`hhhhhhhhhhhhhhhhhhh`)
         console.log(error)
       })
     },
@@ -137,16 +178,12 @@ export default {
       console.log(html)
        this.ruleForm.checkPass = html  //获取文本编译框内的html赋值
     }
-     
-      editor.create()
-    //想，可以添加事件获取
-    // document.getElementById("editor").addEventListener("keyup", function() {
-    //   var json = editor.txt.getJSON(); // 获取 JSON 格式的内容
-    //   var jsonStr = JSON.stringify(json);
-    //   // console.log(json);
-    //   console.log(jsonStr);
-    // });
-  }
+  },
+  computed: {
+        editor() {
+            return this.$refs.myQuillEditor.quill;
+        },
+    }
 };
 </script>
 

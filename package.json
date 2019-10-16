@@ -21,13 +21,9 @@
     "vue-quill-editor": "^3.0.6",
     "vue-router": "^3.0.7",
     "vue-seamless-scroll": "^1.1.17",
-<<<<<<< HEAD
     "vuedraggable": "^2.23.2",
-    "vuex": "^3.0.1"
-=======
     "vuex": "^3.0.1",
     "wangeditor": "^3.1.1"
->>>>>>> 33bad9c37c0715a53774d43947ae222b41a11153
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.11.0",

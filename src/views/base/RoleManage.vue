@@ -114,7 +114,7 @@ export default {
           var newArray = _this.tableData.slice(0);  //从你选中的下标开始选取
           var newArr = newArray.map((value, i) => {  //映射出newArray的数据
             return {
-              userTypeSortNo: i++,
+              userTypeSortNo: i,
               userTypeId: value.userTypeId
             };
           });

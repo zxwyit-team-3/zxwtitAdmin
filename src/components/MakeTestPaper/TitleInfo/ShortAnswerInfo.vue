@@ -12,11 +12,24 @@
        
         <el-input type="textarea" rows="1" v-model="item.tpqQuestion.questionTitle" :disabled = "isDisabled!=index" autocomplete="off"></el-input>
       </el-form-item>
+
       <el-form-item>
         <el-button type="info" size="small">参考答案</el-button>
-        <div v-html="item.tpqQuestion.answerQuestion.aqAnswer" id="noclick"></div>
-         <div id="editor"  class="editor"></div>
-        <!-- <el-input type="textarea" rows="1" v-model="" :disabled = "isDisabled!=index" autocomplete="off"></el-input> -->
+        <div v-if="isDisabled!=index" v-html="item.tpqQuestion.answerQuestion.aqAnswer"></div>
+        <!-- <template> -->
+            <div class="edit_container">
+                <quill-editor 
+                  v-if="isDisabled==index"
+                    v-model="item.tpqQuestion.answerQuestion.aqAnswer" 
+                    :disabled = "isDisabled!=index" autocomplete="off"
+                    ref="myQuillEditor" 
+                    :options="editorOption" 
+                    @blur="onEditorBlur($event)" @focus="onEditorFocus($event)"
+                    @change="onEditorChange($event)">
+                </quill-editor>
+            </div>
+
+        <!-- </template> -->
       </el-form-item>
       <el-form-item label="分值">
         <el-input-number size="small" v-model="item.tpqScore" :disabled = "isDisabled!=index"></el-input-number>
@@ -32,18 +45,40 @@
 </template>
 
 <script>
-import E from 'wangeditor'
+
+
+import { quillEditor } from "vue-quill-editor"; //调用编辑器
+import 'quill/dist/quill.core.css';
+import 'quill/dist/quill.snow.css';
+import 'quill/dist/quill.bubble.css';
+
 export default {
     name:"ShortAnswerInfo",
+    components: {
+        quillEditor
+    },
     data(){
         return {
-            isDisabled:9999
+            isDisabled:9999,
+            // 富文本
+            // content: `<p></p><p><br></p><ol><li><strong><em>Or drag/paste an image here.</em></strong></li><li><strong><em>rerew</em></strong></li><li><strong><em>rtrete</em></strong></li><li><strong><em>tytrytr</em></strong></li><li><strong><em>uytu</em></strong></li></ol>`,
+            editorOption: {}
+            
         }
     },
     props:{
         msg:String
     },
     methods:{
+       onEditorReady(editor) { // 准备编辑器
+ 
+        },
+        onEditorBlur(){}, // 失去焦点事件
+        onEditorFocus(){}, // 获得焦点事件
+        onEditorChange(){
+          // console.log(this.content)
+        }, // 内容改变事件
+
       setShortAnswerInfo(i){
           this.isDisabled = i
       },
@@ -53,7 +88,7 @@ export default {
       saveShortAnswerInfo(i){
         console.log(this.msg[i])
           var _this = this
-          _this.axios.post('/api/TestPaper/ModifyQuestion?paperQuestionId='+_this.$store.testPaperId,{
+          _this.axios.post('/api/TestPaper/ModifyQuestion?paperQuestionId'+this.msg[i].tpqPaperId,{
               "questionId":_this.msg[i].tpqQuestion.questionId,
               "questionTitle": _this.msg[i].tpqQuestion.questionTitle,
               "questionTypeId": 3,
@@ -62,9 +97,15 @@ export default {
               } 
           })
           .then((res) => {
+            console.log(res)
              if(res.data.code == 1){
                 _this.$message({
                 message: '修改成功',
+                type: 'success'
+              });
+             }else if(res.data.code == 1){
+                _this.$message({
+                message: '数据没有变化',
                 type: 'success'
               });
              }
@@ -97,30 +138,13 @@ export default {
             _this.$message.error('删除失败')
              console.log(error)
           })
-      }
-    },
-    mounted(){
-       var editor = new E('#editor')
-          // editor.customConfig.onchange = (html) => {
-          //   // this.formArticle = html
-          // }
-          // editor.customConfig.uploadImgServer = '<%=path%>/Img/upload'; //上传URL
-          // editor.customConfig.uploadImgMaxSize = 3 * 1024 * 1024;
-          // editor.customConfig.uploadImgMaxLength = 5;    
-          // editor.customConfig.uploadFileName = 'myFileName';
-          // editor.customConfig.uploadImgHooks = {
-          // customInsert: function (insertImg, result, editor) {
-          //             // 图片上传并返回结果，自定义插入图片的事件（而不是编辑器自动插入图片！！！）
-          //             // insertImg 是插入图片的函数，editor 是编辑器对象，result 是服务器端返回的结果
-               
-          //             // 举例：假如上传图片成功后，服务器端返回的是 {url:'....'} 这种格式，即可这样插入图片：
-          //             var url =result.data;
-          //             insertImg(url);
-               
-          //             // result 必须是一个 JSON 格式字符串！！！否则报错
-          //         }
-          //     }
-              editor.create();
+      },
+      computed: {
+        editor() {
+            return this.$refs.myQuillEditor.quill;
+        },
+    }
+
     }
 }
 </script>

@@ -46,6 +46,7 @@
             <div style="display:flex;">
             <el-dropdown style="width:50px;margin-top:20px;">
               <span>{{isInternationalization}}</span>
+              
               <i class="el-icon-arrow-down" style=""></i>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item  @click.native="Internationalization('英文')">英文</el-dropdown-item>
@@ -53,7 +54,8 @@
               </el-dropdown-menu>
             </el-dropdown>
             <span  style="display:inline-block;width:50px;padding:0px 10px;margin-top:20px;">{{userName}}</span>
-            <el-avatar  :src="circleUrl" style="vertical-align: middle;margin-top:10px;"></el-avatar>
+            <span  style="display:inline-block;width:50px;padding:0px 10px;margin-top:20px;" @click="edit()">退出</span>
+            <PictureUpload />
             </div>
             </div>
           </el-header>
@@ -65,8 +67,12 @@
   </div>
 </template>
 <script>
+ import PictureUpload from "../components/PictureUpload";
 // @ is an alias to /src
 export default {
+ components:{
+   PictureUpload
+ },
   name: 'home',
   data(){
       return {
@@ -156,6 +162,11 @@ export default {
           this.$i18n.locale = isType;
       }
         // LangStorage.setLang(this.$i18n.locale) //后面会用做切换和将用户习惯存储到本地浏览器
+      },
+      edit(){
+          
+          sessionStorage.clear()
+          this.$router.push("/login")
       }
     },
 

@@ -38,13 +38,9 @@ async function reGetToken(userInfo,error){  //token过期重新获取
   return Promise.reject(error)
 }
 
-<<<<<<< HEAD
-// Axios.defaults.baseURL = "http://192.168.1.188:12"  //基路径
-=======
-Axios.defaults.baseURL = "http://192.168.1.188:12"  //基路径
+ Axios.defaults.baseURL = "http://192.168.1.188:12"  //基路径
 
 
->>>>>>> 33bad9c37c0715a53774d43947ae222b41a11153
 Axios.interceptors.request.use(function(config){
   //携带凭证
   config.headers['Authorization'] = sessionStorage.getItem("token")
