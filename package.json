@@ -38,7 +38,7 @@
     "less-loader": "^5.0.0",
     "vue-template-compiler": "^2.6.10",
     "vue-json-excel": "^0.2.98",
-    "vue-print-nb": "^1.4.0",
+    "vue-print-nb": "^1.4.0"
   },
   "eslintConfig": {
     "root": true,
