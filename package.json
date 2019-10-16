@@ -14,13 +14,20 @@
     "echarts": "^4.3.0",
     "element-ui": "^2.12.0",
     "js-cookie": "^2.2.1",
+    "quill": "^1.3.7",
     "vue": "^2.6.10",
     "vue-axios": "^2.1.4",
     "vue-i18n": "^8.14.1",
+    "vue-quill-editor": "^3.0.6",
     "vue-router": "^3.0.7",
     "vue-seamless-scroll": "^1.1.17",
+<<<<<<< HEAD
     "vuedraggable": "^2.23.2",
     "vuex": "^3.0.1"
+=======
+    "vuex": "^3.0.1",
+    "wangeditor": "^3.1.1"
+>>>>>>> 33bad9c37c0715a53774d43947ae222b41a11153
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.11.0",
@@ -28,6 +35,7 @@
     "@vue/cli-service": "^3.11.0",
     "babel-eslint": "^10.0.1",
     "eslint": "^5.16.0",
+    "eslint-plugin-html": "^6.0.0",
     "eslint-plugin-vue": "^5.0.0",
     "less": "^3.0.4",
     "less-loader": "^5.0.0",

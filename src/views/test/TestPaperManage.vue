@@ -1,26 +1,26 @@
 <template>
   <div>
     <el-breadcrumb separator="/" style="margin-bottom:30px;">
-      <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item>在线测试</el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/' }">{{$t("message.index")}}</el-breadcrumb-item>
+      <el-breadcrumb-item>{{$t("message.TestTitle")}}</el-breadcrumb-item>
       <el-breadcrumb-item>
-        <a href="/TestPaperManage">试卷管理</a>
+        <a href="/TestPaperManage">{{$t("message.test.name2")}}</a>
       </el-breadcrumb-item>
     </el-breadcrumb>
     <el-card class="box-card">
       <el-table :data="userList" border style="width: 100%">
         <el-table-column type="index" :index="indexMethod" width="50px"></el-table-column>
-        <el-table-column prop="tpTitle" label="标题" width="130px"></el-table-column>
-        <el-table-column prop="userName" label="出卷人" width="120px"></el-table-column>
-        <el-table-column prop="courseName" label="课程"></el-table-column>
-        <el-table-column prop="tpDate" label="出卷时间" width="140px">
+        <el-table-column prop="tpTitle" :label="$t('message.tableDate.testTitle')" width="130px"></el-table-column>
+        <el-table-column prop="userName" :label="$t('message.tableDate.makePeople')" width="120px"></el-table-column>
+        <el-table-column prop="courseName" :label="$t('message.tableDate.course')"></el-table-column>
+        <el-table-column prop="tpDate" :label="$t('message.tableDate.time')" width="140px">
           <template slot-scope="scope">{{ scope.row.tpDate | dateFormat }}</template>
         </el-table-column>
-        <el-table-column label="操作" >
+        <el-table-column :label="$t('message.tableDate.operation')" >
             <template slot-scope="scope">
-                <el-button size="small" @click="upData(scope.$index)">编辑</el-button>
-                <el-button size="small" @click="Particulars(scope.$index)">详情</el-button>
-                <el-button size="small" type="danger" @click="deleteDate(scope.$index)">删除</el-button>
+                <el-button size="small" @click="upData(scope.$index)">{{$t("message.btn.upData")}}</el-button>
+                <el-button size="small" @click="Particulars(scope.$index)">{{$t("message.btn.details")}}</el-button>
+                <el-button size="small" type="danger" @click="deleteDate(scope.$index)">{{$t("message.btn.delete")}}</el-button>
 	        </template>
           
         </el-table-column>
@@ -46,9 +46,7 @@
   </el-form-item>
   <el-form-item style="width:100%;">
       <p>专业课程</p>
-    <el-select v-model="form.region" placeholder="请选择课程" @change="getCourserId(form.region)">
-      <el-option v-for="item in courseArr" :label="item.courseName" :value="item.courseName" :key="item.courseId"></el-option>
-    </el-select>
+    <courseSelect />
   </el-form-item>
     </el-form>
       <span slot="footer" class="dialog-footer">
@@ -61,7 +59,9 @@
 
 
 <script>
+import courseSelect from '../../components/CourseSelect'
 export default {
+  
   /**
    * @param {number} currentPage  初始页
    * @param {number} pagesize 每页的数据
@@ -74,6 +74,9 @@ export default {
    * @param {number} tpId 试卷id
    */
   name: "TestPaperManage",
+  components:{
+    courseSelect
+  },
   data() {
     return {
       currentPage: 1, //初始页

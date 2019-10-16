@@ -9,7 +9,7 @@
           v-model="radio"
           :label="item.typeId"
         >{{item.typeName}}</el-radio>
-        <el-button type="primary" id="completeTestBtn" @click="testInfo">完成制卷</el-button>
+        <el-button type="primary" id="completeTestBtn" @click="testInfo">{{$t('message.MackTestPaper.completion')}}</el-button>
       </div>
       <MultipleChoice v-if="radio == '1'" @MultipleChoiceInfo="getMultipleChoiceInfo" />
       <FillInTheBlanks v-if="radio == '2'" @FillInTheBlanksInfo="getFillInTheBlanksInfo" />

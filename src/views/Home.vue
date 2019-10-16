@@ -8,23 +8,23 @@
       background-color="#545C64"
       router 
       text-color="#fff">
-      <p id="title"><img src="../assets/head.jpg" />智学无忧教育</p>
+      <p id="title"><img src="../assets/head.jpg" />{{$t("message.Title")}}</p>
     <el-submenu index="1">
       <template slot="title">
         <i class="el-icon-document"></i>
-        <span slot="title">在线测试</span>
+        <span slot="title">{{$t("message.TestTitle")}}</span>
       </template>
       <el-menu-item-group>
-        <el-menu-item v-for="(item,index) in test" :key="index"  :route="item.url" :name="item.name" :index="item.url" @click="addTab(index,item.name,item.url)">{{item.name}}<i></i></el-menu-item>
+        <el-menu-item v-for="(item,index) in test" :key="index"  :route="item.url" :name="item.name" :index="item.url" @click="addTab(index,item.name,item.url)">{{$t(item.name)}}<i></i></el-menu-item>
       </el-menu-item-group>
     </el-submenu>
     <el-submenu index="2">
       <template slot="title">
         <i class="el-icon-menu"></i>
-        <span slot="title">基本数据</span>
+        <span slot="title">{{$t("message.BaseTitle")}}</span>
       </template>
       <el-menu-item-group>
-         <el-menu-item v-for="(item,index) in base" :key="index" :route="item.url" :name="item.name" :index="item.url"  @click="addTab(index,item.name,item.url)">{{item.name}}<i></i></el-menu-item>
+         <el-menu-item v-for="(item,index) in base" :key="index" :route="item.url" :name="item.name" :index="item.url"  @click="addTab(index,item.name,item.url)">{{$t(item.name)}}<i></i></el-menu-item>
       </el-menu-item-group>
     </el-submenu>
     </el-menu>
@@ -37,7 +37,7 @@
               <el-tab-pane
                 v-for="(item) in editableTabs"
                 :key="item.name"
-                :label="item.title"
+                :label="$t(item.title)"
                 :name="item.name"
                 :url="item.comtent"
               >
@@ -74,23 +74,23 @@ export default {
         userName:"",
         editableTabsValue: '1', //选中tabs
        editableTabs: [{ //tab数组
-          title: '首页',
+          title: 'message.index',
           name: '1',
           content: '/'
         }], 
         base:[ //基本数据数组
-          {url:"/ClassManage",name:"班级管理"},
-          {url:"/StudentManage",name:"学生管理"},
-          {url:"/TeacherManage",name:"老师管理"},
-          {url:"/MondifyPassword",name:"修改密码"},
-          {url:"/RoleManage",name:"用户管理"}  
+          {url:"/ClassManage",name:"message.base.name1"},
+          {url:"/StudentManage",name:"message.base.name2"},
+          {url:"/TeacherManage",name:"message.base.name3"},
+          {url:"/MondifyPassword",name:"message.base.name4"},
+          {url:"/RoleManage",name:"message.base.name5"}  
         ],
         test:[ //在线测试数组
-          {url:"/MakeTestPaper",name:"老师出卷"},
-          {url:"/TestPaperManage",name:"试卷管理"},
-          {url:"/TestResult",name:"安排测试"},
-          {url:"/TestSetter",name:"批阅试卷"},
-          {url:"/ViewTestPaper",name:"测试成绩"},
+          {url:"/MakeTestPaper",name:"message.test.name1"},
+          {url:"/TestPaperManage",name:"message.test.name2"},
+          {url:"/TestResult",name:"message.test.name3"},
+          {url:"/TestSetter",name:"message.test.name4"},
+          {url:"/ViewTestPaper",name:"message.test.name5"},
         ],
        tabIndex: 1,
        isCollapse:false,//操控是否收缩
@@ -111,6 +111,7 @@ export default {
                 return
             }
           }
+          // console.log(this.$t("message.editableTabs"))
           this.editableTabs.push({
             title: content, //内容
             name: newTabName,
@@ -141,9 +142,6 @@ export default {
           //  console.log()
         },
       tabClick(event){  //点击tabs切换路由
-        //event.index 获取当前点击tabs下标
-        //  console.log(this.editableTabs)
-        //  console.log(event.index)
         this.$router.push(this.editableTabs[event.index].content)
       },
       Internationalization(isType){  //国际化
@@ -174,11 +172,26 @@ export default {
     mounted(){
       this.circleUrl = sessionStorage.getItem("userHeader")
       this.userName = sessionStorage.getItem("userName")
+
+      //在页面刷新时将vuex里的信息保存到sessionStorage
+      window.addEventListener("beforeunload",(e) => {
+        sessionStorage.setItem("store",JSON.stringify(this.$store.state))
+      })
     },
     created(){
       let that = this;
-      console.log(localStorage.lang)
-      that.selectValue = localStorage.lang == undefined?'cn':localStorage.lang
+      if(localStorage.lang == "cn"){
+        this.isInternationalization = "中文"
+      }else{
+        this.isInternationalization = "英文"
+      }
+      // that.selectValue = localStorage.lang == undefined?'cn':localStorage.lang
+
+      //在页面加载时读取sessionStorage里的状态信息   
+      if(sessionStorage.getItem("store")){
+        that.$store.replaceState(Object.assign({},that.$store.state,JSON.parse(sessionStorage.getItem("store"))))
+        sessionStorage.removeItem("store")
+      }
     }
 }
 </script>

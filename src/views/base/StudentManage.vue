@@ -3,8 +3,6 @@
 -->
 <template>
   <div id="StudentManage">
-    <h2>学生管理</h2>
-
     <!-- 卡片容器 -->
     <el-card class="box-card">
       <div slot="header" class="clearfix">

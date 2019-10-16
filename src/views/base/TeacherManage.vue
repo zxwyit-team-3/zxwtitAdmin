@@ -92,6 +92,7 @@
           size="mini"
           @click="addUpdata(scope.$index,scope.row)">编辑</el-button>
         <el-button
+        v-has
           size="mini"
           type="danger"
           :disabled="scope.row.disableDelete"
