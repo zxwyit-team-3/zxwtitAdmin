@@ -3,6 +3,7 @@
 -->
 <template>
   <div id="StudentManage">
+<<<<<<< HEAD
     <!-- 面包屑导航 -->
     <div style="height:30px; line-height:30px;">
     <el-breadcrumb separator-class="el-icon-arrow-right">
@@ -11,6 +12,8 @@
       <el-breadcrumb-item>学生管理</el-breadcrumb-item>
     </el-breadcrumb>
     </div>
+=======
+>>>>>>> master
     <!-- 卡片容器 -->
     <el-card class="box-card">
       <div slot="header" class="clearfix">

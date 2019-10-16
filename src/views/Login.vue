@@ -52,7 +52,15 @@
             userLogin(){
                 var _this = this
                 this.isloading = true
-                this.axios.get("/api/OAuth/authenticate?userMobile="+_this.user+"&userPassword="+_this.password)
+                
+                // var info = {  
+                // userMobile:_this.user,    //登录账号
+                // //sessionStorage.setItem('userName',res.data.profile.userName) //用户姓名
+                // userPassword:_this.password       //用户密码
+                // }
+                // console.log(this.get("api/OAuth/authenticate",info))   封装axios调用
+
+                this.axios.get("api/OAuth/authenticate?userMobile="+_this.user+"&userPassword="+_this.password)
                 .then(function(res){
                     console.log(res.data)
                     if(res.statusText == "OK"){
@@ -60,12 +68,7 @@
                             var Days = 7;  //过期时间
                             _this.setCookie("userPwd",_this.password,Days)
                             _this.setCookie("userName",_this.user,Days)
-                            // var date = new Date()  //声明时间对象
-                            // date.setTime(date.getTime() + Days*24*60*60*1000)  //设置过期时间戳
-                            // document.cookie = 'userPwd='+_this.password+';expires='+date.toGMTString() //保存密码并设置过期时间转换时间格式
-                            // document.cookie = 'userNmae='+_this.user+';expires='+date.toGMTString() //保存用户名并设置过期时间转换时间格式
-                            // console.log(_this.checked)
-                            // document.cookie = 'check='+_this.checked
+                           
                         }else{ //清空cookie
                                 _this.clearCookie("userPwd")
                                 _this.clearCookie("userName")
@@ -82,9 +85,20 @@
                         sessionStorage.setItem('userPwd', _this.password)       //用户密码
                          sessionStorage.setItem('userUid', res.data.profile.userUid)       //用户唯一标识符
                         sessionStorage.setItem('userHeader',res.data.profile.userHeader)    //用户头像
+<<<<<<< HEAD
                         _this.$store.userName = res.data.profile.userName
                         _this.$store.userUid = res.data.profile.userUid
                         _this.$store.userHeader = res.data.profile.userHeader
+=======
+                        sessionStorage.setItem('userUid',res.data.profile.userUid)      // 用户Id
+                        _this.$store.state.userName = res.data.profile.userName
+                        _this.$store.state.userUid = res.data.profile.userUid
+                        _this.$store.state.userHeader = res.data.profile.userHeader
+                        _this.$store.state.userUserTypeId = res.data.profile.userUserTypeId
+                        sessionStorage.setItem('userUserTypeId',res.data.profile.userUserTypeId)
+                        // console.log(_this.$store.state.userUserTypeId)
+                        // console.log(res.data.profile.userUserTypeId)
+>>>>>>> master
                         _this.$router.push('/') //跳转路由
                         _this.isloading = false //按钮禁用
                     }

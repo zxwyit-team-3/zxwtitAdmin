@@ -15,6 +15,7 @@
 
 
       <el-form-item label="参考答案" prop="checkPass">
+<<<<<<< HEAD
         <!-- <el-input type="textarea" rows="1" v-model="ruleForm.checkPass" autocomplete="off"> -->
           <!-- <template> -->
     <div class="edit_container">
@@ -29,6 +30,10 @@
     </div>
 <!-- </template> -->
         <!-- </el-input> -->
+=======
+        <div id="editor" class="editor"></div>
+        <!-- <el-input type="textarea" rows="1" v-model="ruleForm.checkPass" autocomplete="off"></el-input> -->
+>>>>>>> master
       </el-form-item>
       <el-form-item label="分值">
         <el-input-number size="small" v-model="ShortAnswerNum"></el-input-number>
@@ -48,11 +53,15 @@
 
 
 <script>
+<<<<<<< HEAD
 import { quillEditor } from "vue-quill-editor"; //调用编辑器
 import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
 import 'quill/dist/quill.bubble.css';
 
+=======
+import E from 'wangeditor'
+>>>>>>> master
 export default {
   name: "ShortAnswer",
   components: {
@@ -139,7 +148,11 @@ export default {
     saveShortAnswer() {
       var _this = this;
       _this.axios.post("/api/TestPaper/AddQuestionToTestPaper", {
+<<<<<<< HEAD
         tpqPaperId:sessionStorage.getItem("testPaperId"), //试卷主键编号
+=======
+        tpqPaperId:_this.$store.state.testPaperId, //试卷主键编号
+>>>>>>> master
         tpqScore: _this.ShortAnswerNum, //分值
         tpqQuestion: {
           questionTitle: _this.ruleForm.pass, //题目的标题
@@ -164,13 +177,35 @@ export default {
       .catch((error) => {
         console.log(error)
       })
+    },
+    
+  },
+  mounted () {
+    var editor = new E('#editor')
+    editor.customConfig.uploadImgShowBase64 = true
+    editor.customConfig.onchange = (html) => {
+      console.log(html)
+       this.ruleForm.checkPass = html  //获取文本编译框内的html赋值
     }
+<<<<<<< HEAD
   },
   computed: {
         editor() {
             return this.$refs.myQuillEditor.quill;
         },
     }
+=======
+     
+      editor.create()
+    //想，可以添加事件获取
+    // document.getElementById("editor").addEventListener("keyup", function() {
+    //   var json = editor.txt.getJSON(); // 获取 JSON 格式的内容
+    //   var jsonStr = JSON.stringify(json);
+    //   // console.log(json);
+    //   console.log(jsonStr);
+    // });
+  }
+>>>>>>> master
 };
 </script>
 

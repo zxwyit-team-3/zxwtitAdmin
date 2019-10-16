@@ -7,6 +7,7 @@ export default  [
     {
         path:'/ClassManage',
         name:'ClassManage',
+        meta:{btnPermissions:[1]},
         component:ClassManage
       },
       {
