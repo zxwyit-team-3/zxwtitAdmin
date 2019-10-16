@@ -131,7 +131,6 @@ export default {
   },
   data() {
     return {
-      
       edit:"", // 点击编辑保存当前行的所有数据
       index:'', // 点击编辑保存当前行的索引
       form: {
@@ -142,14 +141,6 @@ export default {
           new Date().getTime() + 1 * 60 * 60 * 1000 - 1
         ], // 结束时间
         elapsedTime: [] // 总用时
-
-        /**
-         * 默认时间没有监听到testTime的值  bug
-         */
-        // defaultTime:[
-        //   new Date().getHours() + ":" +new Date().getMinutes(),
-        //   new Date().getHours() +":" +new Date().getMinutes()+ 1 * 60 * 60 * 1000
-        // ], // 默认时间
       },
       rules: {
         TestPaperId: [
@@ -195,10 +186,7 @@ export default {
       let that = this;
       that.form.elapsedTime = parseInt(
         Math.abs(time[1] - time[0]) / 1000 / 60 + 1
-      ); //把相差的毫秒数转换为分钟
-      // if(that.form.elapsedTime > 60){
-      //   that.form.elapsedTime = that.form.elapsedTime / 60
-      // }
+      );
     },
 
     // 测试列表部分
@@ -213,7 +201,7 @@ export default {
         )
         .then(res => {
           that.testTaskList = res.data; // 测试列表
-          console.log(res.data)
+          // console.log(res.data)
         });
     },
     /**
@@ -242,13 +230,13 @@ export default {
       }).then(res => {
         if(res.data.code == 1){
           that.testTaskList.data[that.index].tpTitle=that.TestPaperIdz;
-          // that.testTaskList.data[that.index].taskStartTime=new Date(that.form.testTime[0]);
-          // that.testTaskList.data[that.index].taskEndTime=new Date(that.form.testTime[1]);
-          // if (that.form.classId == undefined) {
-          //   that.testTaskList.data[that.index].classId= that.edit.classId;
-          // }else {
-          //   that.testTaskList.data[that.index].classId=that.form.classId;
-          // }
+          that.testTaskList.data[that.index].taskStartTime=new Date(that.form.testTime[0]);
+          that.testTaskList.data[that.index].taskEndTime=new Date(that.form.testTime[1]);
+          if (that.form.classId == undefined) {
+            that.testTaskList.data[that.index].classId= that.edit.classId;
+          }else {
+            that.testTaskList.data[that.index].classId=that.form.classId;
+          }
           
           
         }

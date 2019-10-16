@@ -15,7 +15,6 @@ export default new Vuex.Store({
     allTestNum:0,
     testPaperName:"",
     courseId:1
-
   },
   getters:{
     
