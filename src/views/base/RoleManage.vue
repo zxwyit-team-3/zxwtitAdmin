@@ -15,11 +15,15 @@
     <div class="content">
       <!-- 头部添加 -->
       <el-card class="box-card">
-        <p slot="header" class="clearfix" @click="add()">
-          <i class="el-icon-circle-plus-outline"></i>
-          <span class="increase">新增角色</span>
-        </p>
-
+        <div slot="header" class="clearfix">
+          <div class="add">
+            <i class="el-icon-circle-plus-outline"></i>
+            <span @click="add()">新增角色</span>
+          </div>
+          <div>
+            <el-checkbox @change="destRoy" v-model="checked">允许拖拽</el-checkbox>
+          </div>
+        </div>
         <!-- 添加模态框 -->
         <el-dialog title="新增角色信息" :visible.sync="increase" width="30%" center>
           <span>角色名称</span>
@@ -36,12 +40,12 @@
           <el-input class="users" v-model="userUpdata"></el-input>
           <span slot="footer" class="dialog-footer">
             <el-button @click="compile = false">取 消</el-button>
-            <el-button type="primary" @click="compiles(index)">修改</el-button>
+            <el-button type="primary" @click="compiles()">修改</el-button>
           </span>
         </el-dialog>
 
         <!-- 角色信息 -->
-        <el-table :data="tableData" style="width: 100%;">
+        <el-table :data="tableData" style="width: 100%;" row-key="userTypeId">
           <el-table-column label="#" width="80" type="index"></el-table-column>
           <el-table-column label="角色名称">
             <template slot-scope="scope">
@@ -67,6 +71,7 @@
 </template>
 
 <script>
+import Sortable from "sortablejs";
 export default {
   data() {
     return {
@@ -76,28 +81,85 @@ export default {
       user: "", // 添加角色名称
       userUpdata: "", //修改角色名称
       value: "", // 角色信息
-      index: "",
+      values: "",
+      checked: false
     };
   },
   methods: {
-    handleClose(done) {
-      this.$confirm("确认关闭？")
-        .then(_ => {
-          done();
-        })
-        .catch(_ => {});
+    destRoy() {
+      var _this = this;
+      if (_this.checked) {
+        _this.damage();
+      } else {
+        _this.values.destroy();
+      }
     },
-
-    // 修改
+    /**
+     * 拖拽排序
+     */
+    damage() {
+      var tbody = document.querySelector(".el-table__body-wrapper tbody");  //获取table里面的数据
+      var _this = this;
+      //Sortable排序事件
+      _this.values = Sortable.create(tbody, {
+        animation: 500,
+        //拖拽完成后发生事件
+        onEnd({ newIndex, oldIndex }) {
+          //splice方法newIdex是添加或者删除的新下标，0是要删除newIdex的数量，0是不删除
+          _this.tableData.splice(
+            newIndex,
+            0,
+            _this.tableData.splice(oldIndex, 1)[0]  //删除当行选中旧的下标
+          );
+          var newArray = _this.tableData.slice(0);  //从你选中的下标开始选取
+          var newArr = newArray.map((value, i) => {  //映射出newArray的数据
+            return {
+              userTypeSortNo: i++,
+              userTypeId: value.userTypeId
+            };
+          });
+          _this.axios
+            .post("/api/UserType/OrderUserRoleNo", newArr)
+            .then(res => {
+              if (res.data.code == 1) {
+                _this.$message({
+                  type: "success",
+                  message: "排序成功"
+                });
+              } else if (res.data.code == 0) {
+                _this.$message({
+                  type: "info",
+                  message: "数据没有变化"
+                });
+              }
+            });
+        }
+      });
+    },
+    /**
+     * 编辑
+     * @param index {object} 当前行的下标
+     * @param row {object} 角色名称
+     */
     handleEdit(index, row) {
+      var _this = this;
       this.compile = true;
       this.value = row;
-      console.log(this.value);
       this.userUpdata = row.userTypeTypeName; //修改角色名称
     },
-    compiles(index) {
+    /**
+     * 模态框编辑
+     */
+    compiles() {
       var _then = this;
-      _then.axios.post("/api/UserType/ModifyUserRole?id=" + _then.value.userTypeId + "&userRoleName=" + _then.userUpdata).then(res => {
+      _then.axios
+        .post(
+          "/api/UserType/ModifyUserRole?id=" +
+            _then.value.userTypeId +
+            "&userRoleName=" +
+            _then.userUpdata
+        )
+        .then(res => {
           _then.compile = false;
           if (res.data.code == 1) {
             _then.value.userTypeTypeName = _then.userUpdata;
@@ -114,9 +176,12 @@ export default {
         });
     },
 
-    // 删除
+    /**
+     * 删除
+     * @param index {number} 当前行的下标
+     * @param row {object} 用户名称
+     */
     handleDelete(index, row) {
-      console.log(index);
       var _then = this;
       _then
         .$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
@@ -129,7 +194,6 @@ export default {
           _then.axios
             .post("/api/UserType/RemoveUserRole?userRoleId=" + row.userTypeId)
             .then(res => {
-              console.log(res);
               if (res.data.code == 1) {
                 _then.tableData.splice(index, 1);
                 _then.$message({
@@ -151,15 +215,20 @@ export default {
         });
     },
 
-    // 添加角色
+    /**
+     * 新增
+     */
     add() {
       this.increase = true;
     },
+    /**
+     * 模态框新增
+     */
     increases() {
       var _then = this;
       _then.axios
-        .post("/api/UserType/AddUserRole?userRoleName=" + _then.user).then(function(res) {
-          console.log(res.data)
+        .post("/api/UserType/AddUserRole?userRoleName=" + _then.user)
+        .then(function(res) {
           _then.tableData.push(res.data.data);
           _then.increase = false;
           if (res.data.code == 1) {
@@ -205,8 +274,14 @@ export default {
         margin-left: 5%;
       }
       .clearfix {
-        width: 70px;
+        width: 200px;
         margin-left: 30px;
+        color: #409eff;
+        font-size: 13px;
+      }
+      .add {
+        float: left;
+        margin-right: 20px;
       }
     }
   }
