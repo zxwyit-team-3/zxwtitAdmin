@@ -15,7 +15,6 @@
 
       <el-form-item>
         <el-button type="info" size="small">参考答案</el-button>
-<<<<<<< HEAD
         <div v-if="isDisabled!=index" v-html="item.tpqQuestion.answerQuestion.aqAnswer"></div>
         <!-- <template> -->
             <div class="edit_container">
@@ -31,11 +30,6 @@
             </div>
 
         <!-- </template> -->
-=======
-        <div v-html="item.tpqQuestion.answerQuestion.aqAnswer" id="noclick"></div>
-         <div id="editor"  class="editor"></div>
-        <!-- <el-input type="textarea" rows="1" v-model="" :disabled = "isDisabled!=index" autocomplete="off"></el-input> -->
->>>>>>> master
       </el-form-item>
       <el-form-item label="分值">
         <el-input-number size="small" v-model="item.tpqScore" :disabled = "isDisabled!=index"></el-input-number>
@@ -51,7 +45,6 @@
 </template>
 
 <script>
-<<<<<<< HEAD
 
 
 import { quillEditor } from "vue-quill-editor"; //调用编辑器
@@ -59,9 +52,6 @@ import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
 import 'quill/dist/quill.bubble.css';
 
-=======
-import E from 'wangeditor'
->>>>>>> master
 export default {
     name:"ShortAnswerInfo",
     components: {

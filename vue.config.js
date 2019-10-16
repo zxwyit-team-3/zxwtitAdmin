@@ -1,6 +1,5 @@
 module.exports={
     lintOnSave:false,
-<<<<<<< HEAD
 
     // devServer:{     // 代理服务器配置
     //     proxy: {    // 配置参数
@@ -12,7 +11,6 @@ module.exports={
     //       }
     // }
     
-=======
     // devServer:{  //代理解决跨域
     //         proxy:{
     //             '/api':{
@@ -22,5 +20,4 @@ module.exports={
     //             }
     //         }
     // }
->>>>>>> master
 }
