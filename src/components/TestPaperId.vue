@@ -1,6 +1,6 @@
 <template>
   <div id="TestPaperId">
-    <el-select v-model="val" filterable placeholder="请选择试卷" @change="changeTestPaperId">
+    <el-select v-model="val" filterable :placeholder="$t('message.MackTestPaper.selectTest')" @change="changeTestPaperId">
       <el-option v-for="item in getAllTestPaper" :key="item.tpId" :label="item.tpTitle" :value="item.tpId"></el-option>
     </el-select>
   </div>

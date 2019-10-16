@@ -1,6 +1,6 @@
 <template>
   <div id="ClassId">
-    <el-select v-model="value" filterable placeholder="请选择班级" @change="changeClass()">
+    <el-select v-model="value" filterable :placeholder="$t('message.TestResult.selectClass')" @change="changeClass()">
       <el-option v-for="item in getAllClass" :key="item.classId" :label="item.className" :value="item.classId"></el-option>
     </el-select>
   </div>

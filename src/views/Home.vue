@@ -74,7 +74,7 @@ export default {
         userName:"",
         editableTabsValue: '1', //选中tabs
        editableTabs: [{ //tab数组
-          title: 'index',
+          title: 'message.index',
           name: '1',
           content: '/'
         }], 

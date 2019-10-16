@@ -15,7 +15,7 @@
       <el-form-item>
         <el-button type="info" size="small">参考答案</el-button>
         <div v-html="item.tpqQuestion.answerQuestion.aqAnswer" id="noclick"></div>
-         <div id="editor"  class="editor"  style="text-align:left"></div>
+         <div id="editor"  class="editor"></div>
         <!-- <el-input type="textarea" rows="1" v-model="" :disabled = "isDisabled!=index" autocomplete="off"></el-input> -->
       </el-form-item>
       <el-form-item label="分值">
@@ -100,26 +100,26 @@ export default {
       }
     },
     mounted(){
-       var editor = new E('.editor')
-          editor.customConfig.onchange = (html) => {
-            this.formArticle = html
-          }
-          editor.customConfig.uploadImgServer = '<%=path%>/Img/upload'; //上传URL
-          editor.customConfig.uploadImgMaxSize = 3 * 1024 * 1024;
-          editor.customConfig.uploadImgMaxLength = 5;    
-          editor.customConfig.uploadFileName = 'myFileName';
-          editor.customConfig.uploadImgHooks = {
-          customInsert: function (insertImg, result, editor) {
-                      // 图片上传并返回结果，自定义插入图片的事件（而不是编辑器自动插入图片！！！）
-                      // insertImg 是插入图片的函数，editor 是编辑器对象，result 是服务器端返回的结果
+       var editor = new E('#editor')
+          // editor.customConfig.onchange = (html) => {
+          //   // this.formArticle = html
+          // }
+          // editor.customConfig.uploadImgServer = '<%=path%>/Img/upload'; //上传URL
+          // editor.customConfig.uploadImgMaxSize = 3 * 1024 * 1024;
+          // editor.customConfig.uploadImgMaxLength = 5;    
+          // editor.customConfig.uploadFileName = 'myFileName';
+          // editor.customConfig.uploadImgHooks = {
+          // customInsert: function (insertImg, result, editor) {
+          //             // 图片上传并返回结果，自定义插入图片的事件（而不是编辑器自动插入图片！！！）
+          //             // insertImg 是插入图片的函数，editor 是编辑器对象，result 是服务器端返回的结果
                
-                      // 举例：假如上传图片成功后，服务器端返回的是 {url:'....'} 这种格式，即可这样插入图片：
-                      var url =result.data;
-                      insertImg(url);
+          //             // 举例：假如上传图片成功后，服务器端返回的是 {url:'....'} 这种格式，即可这样插入图片：
+          //             var url =result.data;
+          //             insertImg(url);
                
-                      // result 必须是一个 JSON 格式字符串！！！否则报错
-                  }
-              }
+          //             // result 必须是一个 JSON 格式字符串！！！否则报错
+          //         }
+          //     }
               editor.create();
     }
 }

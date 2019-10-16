@@ -7,16 +7,16 @@
       label-width="100px"
       class="demo-ruleForm"
     >
-      <el-form-item label="试卷名称" prop="testName" >
-        <el-input v-model="ruleForm.testName" placeholder="请输入试卷名称"></el-input>
+      <el-form-item :label="$t('message.MackTestPaper.testName')" prop="testName" >
+        <el-input v-model="ruleForm.testName" :placeholder="$t('message.MackTestPaper.selectTest')"></el-input>
       </el-form-item>
-      <el-form-item label="课程名称" prop="courseName">
-        <el-select v-model="ruleForm.courseName" placeholder="请选择课程" @change="getCourserId(ruleForm.courseName)">
+      <el-form-item :label="$t('message.MackTestPaper.courseName')" prop="courseName">
+        <el-select v-model="ruleForm.courseName" :placeholder="$t('message.MackTestPaper.selectCourse')" @change="getCourserId(ruleForm.courseName)">
           <el-option v-for="item in courseArr" :label="item.courseName" :value="item.courseName" :key="item.courseId"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item style="text-align:center;">
-        <el-button type="primary" @click="submitForm('ruleForm')">下一步</el-button>
+        <el-button type="primary" @click="submitForm('ruleForm')">{{$t('message.btn.next')}}</el-button>
       </el-form-item>
     </el-form>
   </div>

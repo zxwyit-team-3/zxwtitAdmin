@@ -1,6 +1,6 @@
 <template>
     <div id="CourseSelect">
-            <el-select v-model="course.courseName" placeholder="请选择专业课程">
+            <el-select v-model="course.courseName" :placeholder="$t('message.TestResult.selectClass')">
             <el-option v-for="item in allCourse" :label="item.courseName" :value="item.courseId" :key="item.courseId"></el-option>
             </el-select>
     </div>

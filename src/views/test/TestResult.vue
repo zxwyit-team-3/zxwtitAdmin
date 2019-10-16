@@ -4,17 +4,17 @@
     <div slot="header" class="clearfix">
       <!-- 试卷名 -->
       <el-form :model="form" ref="form" label-width="80px" class="demo-ruleForm">
-        <el-form-item label="试卷名称" prop="TestPaperId">
+        <el-form-item :label="$t('message.MackTestPaper.testName')" prop="TestPaperId">
           <TestPaperId @childTestPaperId="getTestPaperId" :TestPaperId="`null`"/>
         </el-form-item>
 
         <!-- 班级名 -->
-        <el-form-item label="班级名称" prop="ClassId">
+        <el-form-item :label="$t('message.TestResult.className')" prop="ClassId">
           <ClassId @childClassId="getClassId" :classId="`null`"  />
         </el-form-item>
 
         <!-- 考试时间 -->
-        <el-form-item label="考试时间" prop="testTime" class="demonstration">
+        <el-form-item :label="$t('message.TestResult.testtime')" prop="testTime" class="demonstration">
           <el-date-picker
             v-model="form.testTime"
             type="datetimerange"
@@ -29,8 +29,8 @@
 
         <!-- 操作按钮 -->
         <el-form-item>
-          <el-button @click="resetForm('form')">重置</el-button>
-          <el-button type="primary" @click="submit()">立即创建</el-button>
+          <el-button @click="resetForm('form')">{{$t("message.btn.reset")}}</el-button>
+          <el-button type="primary" @click="submit()">{{$t("message.btn.create")}}</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -39,24 +39,24 @@
       <div>
         <el-table :data="testTaskList.data" style="width: 100%;" class="text item">
           <el-table-column label="#" prop type="index"></el-table-column>
-          <el-table-column label="试卷名" prop="tpTitle"></el-table-column>
-          <el-table-column label="班级" prop="className"></el-table-column>
-          <el-table-column label="出卷人" prop="userName"></el-table-column>
-          <el-table-column label="测试开始时间" prop="taskStartTime">
+          <el-table-column :label="$t('message.TestResult.testName')" prop="tpTitle"></el-table-column>
+          <el-table-column :label="$t('message.TestResult.class')" prop="className"></el-table-column>
+          <el-table-column :label="$t('message.tableDate.makePeople')" prop="userName"></el-table-column>
+          <el-table-column :label="$t('message.TestResult.Teststarttime')" prop="taskStartTime">
             <!-- 过滤时间格式 -->
             <template slot-scope="scope">{{scope.row.taskStartTime | timeFilter}}</template>
           </el-table-column>
-          <el-table-column label="测试结束时间" prop="taskEndTime">
+          <el-table-column :label="$t('message.TestResult.Testendtime')" prop="taskEndTime">
             <template slot-scope="scope">{{scope.row.taskEndTime | timeFilter}}</template>
           </el-table-column>
-          <el-table-column label="耗时（分钟）" prop="taskEscapeTime"></el-table-column>
-          <el-table-column label="操作">
+          <el-table-column :label="$t('message.TestResult.when')" prop="taskEscapeTime"></el-table-column>
+          <el-table-column :label="$t('message.tableDate.operation')">
             <template slot-scope="scope">
               <el-button
                 size="mini"
                 @click="handleEdit(scope.$index, scope.row),centerDialogVisible = true"
-              >编辑</el-button>
-              <el-button size="mini" type="danger" @click="handleIdit(scope.$index, scope.row)">删除</el-button>
+              >{{$t("message.btn.upData")}}</el-button>
+              <el-button size="mini" type="danger" @click="handleIdit(scope.$index, scope.row)">{{$t("message.btn.delete")}}</el-button>
             </template>
           </el-table-column>
         </el-table>

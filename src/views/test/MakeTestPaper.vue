@@ -3,9 +3,9 @@
         <el-card class="box-card">
         <div slot="header" class="clearfix">
             <el-steps :active="active" finish-status="success">
-                <el-step title="试卷信息"></el-step>
-                <el-step title="添加题目"></el-step>
-                <el-step title="完成制作"></el-step>
+                <el-step :title="$t('message.MackTestPaper.testInfo')"></el-step>
+                <el-step :title="$t('message.MackTestPaper.addTitle')"></el-step>
+                <el-step :title="$t('message.MackTestPaper.completion')"></el-step>
             </el-steps>
         </div>
         <!-- 试卷信息 -->
