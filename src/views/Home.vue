@@ -55,7 +55,7 @@
             <span  style="display:inline-block;width:50px;padding:0px 10px;margin-top:20px;">{{userName}}</span>
             <!-- 引用头像上传组件 -->
             <picture-upload>
-              
+                
             </picture-upload>
             </div>
             </div>
