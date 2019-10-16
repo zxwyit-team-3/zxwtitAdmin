@@ -18,11 +18,8 @@
     "vue": "^2.6.10",
     "vue-axios": "^2.1.4",
     "vue-i18n": "^8.14.1",
-<<<<<<< HEAD
     "vue-json-excel": "^0.2.98",
     "vue-print-nb": "^1.4.0",
-=======
->>>>>>> master
     "vue-quill-editor": "^3.0.6",
     "vue-router": "^3.0.7",
     "vue-seamless-scroll": "^1.1.17",
@@ -39,7 +36,9 @@
     "eslint-plugin-vue": "^5.0.0",
     "less": "^3.0.4",
     "less-loader": "^5.0.0",
-    "vue-template-compiler": "^2.6.10"
+    "vue-template-compiler": "^2.6.10",
+    "vue-json-excel": "^0.2.98",
+    "vue-print-nb": "^1.4.0",
   },
   "eslintConfig": {
     "root": true,
