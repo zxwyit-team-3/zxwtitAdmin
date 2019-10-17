@@ -51,7 +51,7 @@ export default {
     },
     created() {
     this.getRouterData()
-    this.getTestPeparInfo()
+    // this.getTestPeparInfo()
     },
     methods: {
     getRouterData() {
@@ -61,27 +61,27 @@ export default {
       this.allTestNumInfo = this.$route.params.allTestInfo
         
     },
-    getTestPeparInfo(){
-        this.$store.state.allTestNum = 0
-        if(this.allTestNumInfo.length == 1){
-            this.$store.state.MultipleChoiceNum = this.allTestNumInfo[0].tpqScore
-            this.$store.state.ShortAnswerNum = 0
-             this.$store.state.FillInTheBlanksNum  = 0
-        }else if(this.allTestNumInfo.length == 2){
-             this.$store.state.MultipleChoiceNum = this.allTestNumInfo[0].tpqScore
-             this.$store.state.FillInTheBlanksNum = this.allTestNumInfo[1].tpqScore
-             this.$store.state.ShortAnswerNum = 0
-        }else if(this.allTestNumInfo.length == 3){
-            this.$store.state.MultipleChoiceNum = this.allTestNumInfo[0].tpqScore
-             this.$store.state.ShortAnswerNum = this.allTestNumInfo[2].tpqScore
-             this.$store.state.FillInTheBlanksNum = this.allTestNumInfo[1].tpqScore
-        } 
-        for (let i = 0; i < this.allTestNumInfo.length; i++) {
-            this.$store.state.allTestNum+=this.allTestNumInfo[i].tpqScore
-        }
+    // getTestPeparInfo(){
+    //     this.$store.state.allTestNum = 0
+    //     if(this.allTestNumInfo.length == 1){
+    //         this.$store.state.MultipleChoiceNum = this.allTestNumInfo[0].tpqScore
+    //         this.$store.state.ShortAnswerNum = 0
+    //          this.$store.state.FillInTheBlanksNum  = 0
+    //     }else if(this.allTestNumInfo.length == 2){
+    //          this.$store.state.MultipleChoiceNum = this.allTestNumInfo[0].tpqScore
+    //          this.$store.state.FillInTheBlanksNum = this.allTestNumInfo[1].tpqScore
+    //          this.$store.state.ShortAnswerNum = 0
+    //     }else if(this.allTestNumInfo.length == 3){
+    //         this.$store.state.MultipleChoiceNum = this.allTestNumInfo[0].tpqScore
+    //          this.$store.state.ShortAnswerNum = this.allTestNumInfo[2].tpqScore
+    //          this.$store.state.FillInTheBlanksNum = this.allTestNumInfo[1].tpqScore
+    //     } 
+    //     for (let i = 0; i < this.allTestNumInfo.length; i++) {
+    //         this.$store.state.allTestNum+=this.allTestNumInfo[i].tpqScore
+    //     }
 
        
-    }
+    // }
 
   },
   components:{
