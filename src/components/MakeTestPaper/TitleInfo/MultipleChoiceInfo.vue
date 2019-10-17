@@ -61,7 +61,7 @@ export default {
        },
       submitForm(i) {
         var _this = this
-        _this.axios.post('/api/TestPaper/ModifyQuestion?paperQuestionId='+_this.$store.testPaperId,{
+        _this.axios.post('/api/TestPaper/ModifyQuestion?paperQuestionId='+sessionStorage.getItem("testPaperId"),{
         "questionId":_this.msg[i].tpqQuestion.questionId,
         "questionTitle": _this.msg[i].tpqQuestion.questionTitle,
         "questionTypeId": 1,

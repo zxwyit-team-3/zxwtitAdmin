@@ -80,18 +80,21 @@ export default {
       compile: false, //编辑弹出框
       user: "", // 添加角色名称
       userUpdata: "", //修改角色名称
-      value: "", // 角色信息
-      values: "",
-      checked: false
+      value: "", //角色信息
+      values: "",  //拖拽方法
+      checked: false  //是否允许拖拽
     };
   },
   methods: {
+    /**
+     * 是否允许拖拽
+     */
     destRoy() {
       var _this = this;
       if (_this.checked) {
-        _this.damage();
+        _this.damage();  //为true就调用排序方法
       } else {
-        _this.values.destroy();
+        _this.values.destroy();  //为false的话就销毁排序事件
       }
     },
     /**
@@ -111,11 +114,10 @@ export default {
             0,
             _this.tableData.splice(oldIndex, 1)[0]  //删除当行选中旧的下标
           );
-          var newArray = _this.tableData.slice(0);  //从你选中的下标开始选取
-          var newArr = newArray.map((value, i) => {  //映射出newArray的数据
+          var newArr = _this.tableData.map((data, index) => {  //映射出tableData的所有数据
             return {
-              userTypeSortNo: i,
-              userTypeId: value.userTypeId
+              userTypeSortNo: index,
+              userTypeId: data.userTypeId
             };
           });
           _this.axios
@@ -129,7 +131,7 @@ export default {
               } else if (res.data.code == 0) {
                 _this.$message({
                   type: "info",
-                  message: "数据没有变化"
+                  message: "排序没有变化"
                 });
               }
             });

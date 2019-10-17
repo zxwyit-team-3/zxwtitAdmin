@@ -114,7 +114,7 @@ export default {
     onEditorBlur(){}, // 失去焦点事件
     onEditorFocus(){}, // 获得焦点事件
     onEditorChange(){
-      // console.log(this.ruleForm.checkPass)
+      console.log(this.ruleForm.checkPass)
     }, // 内容改变事件
 
     /**
@@ -138,10 +138,8 @@ export default {
     },
     saveShortAnswer() {
       var _this = this;
-      console.log(`aaaaaaaaaaaaaa`)
       _this.axios.post("/api/TestPaper/AddQuestionToTestPaper", {
-        // tpqPaperId:sessionStorage.getItem("testPaperId"), //试卷主键编号
-        tpqPaperId:_this.$store.state.testPaperId, //试卷主键编号
+        tpqPaperId:sessionStorage.getItem("testPaperId"), //试卷主键编号
         tpqScore: _this.ShortAnswerNum, //分值
         tpqQuestion: {
           questionTitle: _this.ruleForm.pass, //题目的标题
@@ -152,7 +150,6 @@ export default {
         }
       })
       .then((res) => {
-        console.log(`ddddddddddddddddddddddd`)
         _this.$emit('ShortAnswerInfo',res.data.data)
          _this.$store.state.ShortAnswerNum+=_this.ShortAnswerNum
          _this.$store.state.allTestNum+=_this.ShortAnswerNum
@@ -165,7 +162,6 @@ export default {
         // console.log(res.data.data)
       })
       .catch((error) => {
-        console.log(`hhhhhhhhhhhhhhhhhhh`)
         console.log(error)
       })
     },

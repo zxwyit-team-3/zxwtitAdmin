@@ -70,8 +70,7 @@ export default {
                 "tpCourseId":_this.courseId
               })
               .then((res) => {
-                console.log(res)
-               
+                 sessionStorage.setItem("testPaperId",res.data.data.testPaperId)
                  _this.$store.state.ShortAnswerNum = 0
                  _this.$store.state.MultipleChoiceNum = 0
                  _this.$store.state.FillInTheBlanksNum = 0
@@ -79,7 +78,6 @@ export default {
                 _this.$store.state.testPaperId = res.data.data.testPaperId //试卷id存储到状态管理
                 _this.$store.state.testPaperName = _this.ruleForm.testName
                 _this.$store.state.courseId = _this.courseId
-                console.log(_this.$store.state.testPaperName )
               })
               .catch((error) => {
                 console.log(error)
@@ -101,16 +99,10 @@ export default {
             })
       },
       getCourserId(cName){ //获取课程id方法
-        if(cName == "Web前端开发"){
-            this.courseId = 1
-            // _this.$store.courserName = 'Web前端开发'
-        }else if(cName == ".NET后台开发"){
-            this.courseId = 2
-            // this.$store.courserName = '.NET后台开发'
-        }else{
-            this.courseId = 3
-            //  this.$store.courserName = '软件测试'
-        }
+      var index = this.courseArr.findIndex(
+        item => item.courseName == cName
+      )
+      this.courseId = this.courseArr[index].courseId
       }
     },
     created(){

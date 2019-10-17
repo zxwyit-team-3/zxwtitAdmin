@@ -9,7 +9,11 @@
     </el-breadcrumb>
     <el-card class="box-card">
       <el-table :data="userList" border style="width: 100%">
-        <el-table-column type="index" :index="indexMethod" width="50px"></el-table-column>
+        <el-table-column  width="50px">
+          <template slot-scope="scope">
+            <span>{{(scope.$index+(currentPage - 1) * pagesize + 1)}}</span>
+          </template>
+        </el-table-column>
         <el-table-column prop="tpTitle" :label="$t('message.tableDate.testTitle')" width="130px"></el-table-column>
         <el-table-column prop="userName" :label="$t('message.tableDate.makePeople')" width="120px"></el-table-column>
         <el-table-column prop="courseName" :label="$t('message.tableDate.course')"></el-table-column>
@@ -46,7 +50,9 @@
   </el-form-item>
   <el-form-item style="width:100%;">
       <p>专业课程</p>
-    <courseSelect />
+     <el-select v-model="form.region" :placeholder="$t('message.TestResult.selectClass')">
+            <el-option v-for="item in courseArr" :label="item.courseName" :value="item.courseId" :key="item.courseId"></el-option>
+      </el-select>
   </el-form-item>
     </el-form>
       <span slot="footer" class="dialog-footer">
@@ -138,10 +144,6 @@ export default {
           _this.AllTotal = res.data.items;
         });
     },
-    //试卷序号
-    indexMethod(index) {
-      return index + 1;
-    },
     getCourse(){    //获取课程方法
              var _this = this
              _this.axios.get("/api/Class/GetAllCourse")
@@ -173,21 +175,14 @@ export default {
                 message: '修改成功',
                 type: 'success'
             });
-            // console.log(_this.form.name)
-            var index = 0;  //声明变量当做下标
-           for (let i = 0; i < _this.userList.length; i++) {
-               if(_this.userList[i].tpId == _this.tpId){
-                   index = i
-               }
-           }
-             _this.userList[index].tpTitle = _this.form.name
-             if(_this.courseId == 1){
-                  _this.userList[index].courseName = "WEB前端开发"
-             }else if(_this.courseId == 2){
-                 _this.userList[index].courseName = ".NET后台开发"
-             }else{
-                 _this.userList[index].courseName = "软件测试"
-             }
+            var index = _this.userList.findIndex( // 获取修改行当前下标
+              item => item.tpId ==  _this.tpId
+            )
+           var i = _this.courseArr.findIndex(  //获取课程名
+            item => item.courseId == _this.form.region
+          )
+          _this.userList[index].courseName =  _this.courseArr[i].courseName
+           
           })
           .catch((error) => {
               console.log(error)
@@ -195,13 +190,10 @@ export default {
           })
       },
       getCourserId(cName){ //获取课程id方法
-        if(cName == "Web前端开发"){
-            this.courseId = 1
-        }else if(cName == ".NET后台开发"){
-            this.courseId = 2
-        }else{
-            this.courseId = 3
-        }
+        var index = this.courseArr.findIndex(
+          item => item.courseName == cName
+        )
+        this.courseId = this.courseArr[index].courseId
       },
       deleteDate(i){  //删除试卷
         this.$confirm('此操作将永久删除该试卷, 是否继续?', '提示', {
@@ -239,8 +231,6 @@ export default {
         var _this = this
         _this.axios.get('/api/TestPaper/GetTestPaper?id='+this.userList[i].tpId)
         .then((res) => {
-          // console.log(res)
-          // console.log(res.data)
            this.$router.push({
             name: 'TestPaperParticulars',
             params: {
