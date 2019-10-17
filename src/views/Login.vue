@@ -53,14 +53,12 @@
                 var _this = this
                 this.isloading = true
                 
-                // var info = {  
-                // userMobile:_this.user,    //登录账号
-                // //sessionStorage.setItem('userName',res.data.profile.userName) //用户姓名
-                // userPassword:_this.password       //用户密码
-                // }
-                // console.log(this.get("api/OAuth/authenticate",info))   封装axios调用
-
-                this.axios.get("api/OAuth/authenticate?userMobile="+_this.user+"&userPassword="+_this.password)
+                var info = {  
+                userMobile:_this.user,    //登录账号
+                //sessionStorage.setItem('userName',res.data.profile.userName) //用户姓名
+                userPassword:_this.password       //用户密码
+                }
+                _this.get('api/OAuth/authenticate',info)//封装axios调用
                 .then(function(res){
                     // console.log(res.data)
                     if(res.statusText == "OK"){
@@ -109,6 +107,7 @@
                     }
                     _this.isloading = false
                 });
+            
             }
         },
         created(){
