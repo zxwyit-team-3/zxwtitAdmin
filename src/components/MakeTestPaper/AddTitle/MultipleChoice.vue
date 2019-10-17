@@ -130,7 +130,7 @@ export default {
     saveMultipleChoice() {//保存题目
       var _this = this;
       _this.axios.post("/api/TestPaper/AddQuestionToTestPaper", {
-        tpqPaperId: _this.$store.testPaperId, //试卷主键编号
+        tpqPaperId:sessionStorage.getItem("testPaperId"), //试卷主键编号
         tpqScore: _this.MultipleChoiceNum, //分值
         tpqQuestion: {
           questionTitle: _this.dynamicValidateForm.email, //题目的标题

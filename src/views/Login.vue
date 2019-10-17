@@ -85,11 +85,6 @@
                         sessionStorage.setItem('userPwd', _this.password)       //用户密码
                          sessionStorage.setItem('userUid', res.data.profile.userUid)       //用户唯一标识符
                         sessionStorage.setItem('userHeader',res.data.profile.userHeader)    //用户头像
-<<<<<<< HEAD
-                        _this.$store.userName = res.data.profile.userName
-                        _this.$store.userUid = res.data.profile.userUid
-                        _this.$store.userHeader = res.data.profile.userHeader
-=======
                         sessionStorage.setItem('userUid',res.data.profile.userUid)      // 用户Id
                         _this.$store.state.userName = res.data.profile.userName
                         _this.$store.state.userUid = res.data.profile.userUid
@@ -98,7 +93,6 @@
                         sessionStorage.setItem('userUserTypeId',res.data.profile.userUserTypeId)
                         // console.log(_this.$store.state.userUserTypeId)
                         // console.log(res.data.profile.userUserTypeId)
->>>>>>> master
                         _this.$router.push('/') //跳转路由
                         _this.isloading = false //按钮禁用
                     }

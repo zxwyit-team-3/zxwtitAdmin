@@ -102,11 +102,11 @@ export default {
         }
         // console.log(_this.dynamicValidateForm.domains)
         _this.axios.post('/api/TestPaper/AddQuestionToTestPaper',{
-          "tpqPaperId": _this.$store.testPaperId,//试卷的编号
+          "tpqPaperId": sessionStorage.getItem("testPaperId"),//试卷的编号
             "tpqScore":sunNum, //题目的分值
             "tpqQuestion": {
             "questionTitle": _this.dynamicValidateForm.email,//填空题的标题
-            "`questionTypeId`": 3,//题目类型 1=选择题 2=填空题 3=问题
+            "`questionTypeId`": 2,//题目类型 1=选择题 2=填空题 3=问题
             "fillQuestion": _this.dynamicValidateForm.domains
             }
         })

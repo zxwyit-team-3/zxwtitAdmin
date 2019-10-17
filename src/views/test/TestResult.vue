@@ -10,7 +10,7 @@
 
         <!-- 班级名 -->
         <el-form-item label="班级名称" prop="ClassId">
-          <ClassId @childClassId="getClassId" :classId="0"  />
+          <ClassId @childClassId="getClassId" :classId="0" v-model="form.classId" />
         </el-form-item>
 
         <!-- 考试时间 -->
